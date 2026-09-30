@@ -195,7 +195,12 @@ export default function Terminal() {
 
   return (
     <div className="space-y-4">
-      <div className="pt-2">
+      {/* relative z-[93]: lift the WHOLE hero block (wordmark + taglines)
+          above the CRT scanline layer (z-90). Lifting only the wordmark left
+          the taglines' glow halos striped by the 1px dark bands - the
+          "shadows still broken outside the letters". The rest of the page
+          keeps the CRT texture. */}
+      <div className="relative z-[93] pt-2">
         <SupplyLogo supply={d?.totalSupply ?? 0} softCap={EMISSION_TOTAL} />
         <p className="glow-soft mt-2 text-center text-sm tracking-[0.3em] text-neutral-400">
           PEER-TO-PEER ELECTRONIC CASH FOR THE OPEN WEB
