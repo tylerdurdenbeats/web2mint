@@ -175,7 +175,9 @@ export const ASCII_LOGO = String.raw`
  * vw. Measuring the rendered result converges in one pass (monospace width
  * is linear in font-size) and is immune to both.
  */
-function useWordmarkFit<T extends HTMLElement>(cap = 12, floor = 4) {
+// cap 13.2 = 12 * 1.10: wordmark renders 10% larger wherever it fits
+// (desktop/tablet). Narrow phones stay at the width-limited fitted size.
+function useWordmarkFit<T extends HTMLElement>(cap = 13.2, floor = 4) {
   const ref = useRef<T | null>(null);
   useEffect(() => {
     const el = ref.current;
@@ -230,7 +232,7 @@ export function Logo({ className }: { className?: string }) {
   return (
     <pre
       ref={ref}
-      style={{ fontSize: 12 }}
+      style={{ fontSize: 13.2 }}
       className={cn(
         // NO text-center here, ever: text-align centers each LINE
         // individually, and trailing spaces hang - so rows with more
@@ -332,17 +334,21 @@ export function SupplyLogo({
   const tip = `MINED: ${fmtInt(supply / COIN)} / ${fmtInt(softCap / COIN)} W2MT (${pctText}%)`;
 
   return (
-    // z-[93]: paint the wordmark ABOVE the CRT scanline overlay (z-90). At
-    // phone sizes the wordmark's fine box-drawing strokes are 1-2 device px
-    // thin and the overlay's 1px dark bands slice them into dashes (the
-    // broken "shadows" under the glyphs). The rest of the page keeps the
-    // CRT texture; vignette (91) and flicker (92) still pass over it.
+    // z-[93]: paint the wordmark ABOVE the global CRT scanline overlay
+    // (z-90). The global overlay's bands sit at fixed viewport offsets with
+    // no relation to the glyph grid, and at phone sizes the fine box-drawing
+    // strokes are 1-2 device px thin - fixed bands sliced them into ragged
+    // dashes (the broken "shadows" under the glyphs). The wordmark instead
+    // gets its OWN scoped scanline layer (.crt-wordmark below): same CRT
+    // texture, but painted only over the wordmark, on top of ink already
+    // snapped to the device-pixel grid by useWordmarkFit. Vignette (91)
+    // still passes over it.
     <div className="group relative z-[93] mx-auto w-full max-w-full" tabIndex={0} aria-label={tip}>
       <pre
         ref={fitRef}
         data-testid="supply-logo"
         data-progress={progress}
-        style={{ fontSize: 12 }}
+        style={{ fontSize: 13.2 }}
         className={cn(
           // NO text-center: it centers each line individually and trailing
           // spaces hang, pushing shadow rows right off the grid (see Logo).
@@ -371,6 +377,12 @@ export function SupplyLogo({
           </span>
         )}
       </pre>
+      {/* Scoped CRT scanline texture: the wordmark paints above the global
+          scanline overlay (z-90), so without this layer it looked flat. The
+          bands only darken glyph ink - over the black background they are
+          invisible. Static by design: any animated texture reads as
+          flicker on some screens. */}
+      <div aria-hidden="true" className="crt-wordmark" />
       {/* terminal-styled tooltip: hover AND keyboard focus */}
       <div
         role="tooltip"

@@ -183,7 +183,7 @@
     color: #565656;
   }
 
-  /* -- CRT overlay (scanlines + vignette + flicker) ----------------- */
+  /* -- CRT overlay (scanlines + vignette; no flicker - see Layout) --- */
   .crt-overlay {
     pointer-events: none;
     position: fixed;
@@ -209,13 +209,23 @@
       rgba(0, 0, 0, 0.35) 100%
     );
   }
-  .crt-flicker {
+  /* Scoped scanline texture for the hero wordmark. The global .crt-overlay
+     sits BELOW the lifted hero block (z-93), so the wordmark lost its CRT
+     texture and looked flat. This layer paints the same 4px-period bands
+     directly over the wordmark only - the rest of the page keeps the global
+     overlay. Black bands over the black background are invisible; they only
+     darken the glyph ink, which is exactly the scanline look. */
+  .crt-wordmark {
     pointer-events: none;
-    position: fixed;
+    position: absolute;
     inset: 0;
-    z-index: 92;
-    background: rgba(255, 255, 255, 0.012);
-    animation: crt-flicker 0.12s infinite steps(2);
+    background: repeating-linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0) 0px,
+      rgba(0, 0, 0, 0) 3px,
+      rgba(0, 0, 0, 0.22) 3px,
+      rgba(0, 0, 0, 0.22) 4px
+    );
   }
 
   /* -- terminal widgets ---------------------------------------------- */
@@ -386,9 +396,8 @@ footer {
   }
 }
 
-/* Respect reduced-motion: kill CRT flicker, blinking cursors, scanner sweep. */
+/* Respect reduced-motion: kill blinking cursors and the scanner sweep. */
 @media (prefers-reduced-motion: reduce) {
-  .crt-flicker,
   .blink,
   .scanline {
     animation: none !important;
@@ -403,18 +412,6 @@ footer {
   50%,
   100% {
     opacity: 0;
-  }
-}
-
-@keyframes crt-flicker {
-  0% {
-    opacity: 0.55;
-  }
-  50% {
-    opacity: 0.9;
-  }
-  100% {
-    opacity: 0.55;
   }
 }
 

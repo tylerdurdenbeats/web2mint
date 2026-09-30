@@ -426,10 +426,12 @@ export function Layout({ children }: { children: ReactNode }) {
         </div>
       </footer>
 
-      {/* CRT layers */}
+      {/* CRT layers. No flicker layer, ever: a full-viewport white veil
+          pulsing at ~8Hz (steps(2)) read as visible background flicker on
+          OLED / high-refresh screens. Scanlines + vignette carry the CRT
+          look without any temporal modulation. */}
       <div className="crt-overlay" />
       <div className="crt-vignette" />
-      <div className="crt-flicker" />
     </div>
   );
 }
