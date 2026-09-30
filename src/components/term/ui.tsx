@@ -128,7 +128,10 @@ export function TerminalProgressBar({
       aria-valuemax={determinate ? 100 : undefined}
       aria-valuenow={pct ?? undefined}
     >
-      <span className="ascii min-w-0 overflow-hidden whitespace-nowrap text-center">
+      {/* no text-center on .ascii: when the unbreakable bar does clip, the
+          fill must stay anchored left; and line centering breaks multi-line
+          ascii art grids (see logo-grid.test.ts) */}
+      <span className="ascii min-w-0 overflow-hidden whitespace-nowrap">
         [{"#".repeat(filled)}
         {"-".repeat(WIDTH - filled)}]
       </span>
@@ -229,7 +232,12 @@ export function Logo({ className }: { className?: string }) {
       ref={ref}
       style={{ fontSize: 12 }}
       className={cn(
-        "ascii glow select-none text-center text-neutral-100",
+        // NO text-center here, ever: text-align centers each LINE
+        // individually, and trailing spaces hang - so rows with more
+        // trailing space (the shadow rows) drifted right off the character
+        // grid (the "shifted bottom shadows" bug). The pre is centered as a
+        // BLOCK via mx-auto w-fit; lines must stay flush-left on the grid.
+        "ascii glow select-none text-neutral-100",
         "mx-auto w-fit max-w-full",
         // z-[93]: paint above the CRT scanline layer (z-90) - see SupplyLogo
         "relative z-[93]",
@@ -336,7 +344,9 @@ export function SupplyLogo({
         data-progress={progress}
         style={{ fontSize: 12 }}
         className={cn(
-          "ascii glow select-none text-center text-neutral-100",
+          // NO text-center: it centers each line individually and trailing
+          // spaces hang, pushing shadow rows right off the grid (see Logo).
+          "ascii glow select-none text-neutral-100",
           // Sized by useWordmarkFit (measure-then-shrink), NOT by a vw clamp:
           // viewport units ignore container padding and Android text scaling
           // inflates font-size without inflating vw - both left the wordmark

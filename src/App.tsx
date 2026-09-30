@@ -26,7 +26,9 @@ function PageLoader() {
 function NotFound() {
   return (
     <div className="mx-auto max-w-xl space-y-4 pt-16 text-center">
-      <pre className="ascii glow text-neutral-100">
+      {/* text-left: the wrapper's text-center would center each art line
+          individually (trailing spaces hang), breaking the column grid */}
+      <pre className="ascii glow text-left text-neutral-100">
         {String.raw`
  _  _    ____    _  _
 | || |  / __ \  | || |
