@@ -145,7 +145,7 @@ export default function Transfers() {
     <div className="space-y-4">
       {scanning ? (
         <div
-          className="fixed inset-0 z-[90] flex items-center justify-center bg-black/90 p-4"
+          className="fixed inset-0 z-[96] flex items-center justify-center bg-black/90 p-4"
           role="dialog"
           aria-modal="true"
           aria-label="QR scanner"

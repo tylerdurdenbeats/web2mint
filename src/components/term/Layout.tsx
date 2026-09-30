@@ -148,7 +148,7 @@ function ChainUpdateOverlay() {
       aria-modal="true"
       aria-label="Chain update in progress"
       data-testid="chain-update-overlay"
-      className="fixed inset-0 z-[90] flex items-center justify-center bg-black/85 p-4"
+      className="fixed inset-0 z-[96] flex items-center justify-center bg-black/85 p-4"
     >
       <div className="w-full max-w-md border border-neutral-600 bg-black px-5 py-6 font-term shadow-[0_0_50px_rgba(255,255,255,0.10)]">
         <p className="text-center text-xl font-bold tracking-[0.3em] text-white [text-shadow:0_0_10px_rgba(255,255,255,0.5)] sm:text-2xl">
@@ -301,7 +301,10 @@ export function Layout({ children }: { children: ReactNode }) {
       {/* pt-[env(safe-area-inset-top)]: in iOS standalone mode the OS status
           bar overlaps the page's top edge; without this padding it swallows
           the nav taps (black-translucent makes the page extend under it). */}
-      <header className="sticky top-0 z-40 border-b border-neutral-700 bg-black/95 relative pt-[env(safe-area-inset-top)]">
+      {/* z-[94]: above the lifted wordmark (z-[93]) and the CRT layers
+          (90/91/92) - the sticky bar must stay on top when the hero scrolls
+          under it, and the crisp brand text matches the crisp wordmark */}
+      <header className="sticky top-0 z-[94] border-b border-neutral-700 bg-black/95 relative pt-[env(safe-area-inset-top)]">
         <div className="mx-auto flex max-w-[1200px] flex-nowrap items-center gap-x-1.5 overflow-hidden px-2 py-2 min-[480px]:gap-x-3 min-[480px]:px-3">
           <Link
             to="/"

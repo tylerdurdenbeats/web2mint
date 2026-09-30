@@ -110,7 +110,7 @@ export function InstallApp() {
           role="dialog"
           aria-modal="true"
           aria-label="Install Web2Mint on this device"
-          className="fixed inset-0 z-[90] flex items-center justify-center bg-black/90 p-4"
+          className="fixed inset-0 z-[96] flex items-center justify-center bg-black/90 p-4"
           onClick={() => setShowIosHelp(false)}
         >
           <div

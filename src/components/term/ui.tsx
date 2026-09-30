@@ -185,9 +185,32 @@ function useWordmarkFit<T extends HTMLElement>(cap = 12, floor = 4) {
       // the truth (measuring the capped box was the phone overflow bug).
       const w = el.scrollWidth;
       const avail = parent.clientWidth;
+      let size = cap;
       if (w > 0 && w > avail) {
-        el.style.fontSize = `${Math.max(floor, Math.floor((avail / w) * cap * 0.98 * 100) / 100)}px`;
+        size = Math.max(floor, Math.floor((avail / w) * cap * 0.98 * 100) / 100);
       }
+      // Device-pixel snap: every glyph in the .ascii stack advances exactly
+      // 0.6em, so the per-column advance in device pixels is 0.6*size*dpr.
+      // A fractional advance rasterizes each glyph at a different sub-pixel
+      // phase, which paints visible vertical seams through solid block runs
+      // (the "striped/tiled glyphs" on phones). Snapping the advance to a
+      // half device pixel makes all columns tile with one consistent phase,
+      // so block runs render as one solid surface at every DPR.
+      const dpr = window.devicePixelRatio || 1;
+      if (w > 0 && dpr > 0) {
+        const widthAt = (s: number) => (w * s) / cap; // monospace: linear
+        const sizeFor = (advDev: number) => advDev / (0.6 * dpr);
+        const cur = 0.6 * size * dpr;
+        let adv = Math.floor(cur * 2) / 2;
+        const up = Math.ceil(cur * 2) / 2;
+        if (up !== adv && sizeFor(up) <= cap && widthAt(sizeFor(up)) <= avail) adv = up;
+        const snapped = sizeFor(adv);
+        // snapped may exceed the fudge-shrunk `size` (the fudge reserves 2%
+        // slack a snapped size doesn't need) - what matters is the container
+        // fits and the cap is respected, never which was computed first.
+        if (snapped >= floor && widthAt(snapped) <= avail) size = snapped;
+      }
+      el.style.fontSize = `${size}px`;
     };
     fit();
     const ro = new ResizeObserver(fit);
@@ -208,6 +231,8 @@ export function Logo({ className }: { className?: string }) {
       className={cn(
         "ascii glow select-none text-center text-neutral-100",
         "mx-auto w-fit max-w-full",
+        // z-[93]: paint above the CRT scanline layer (z-90) - see SupplyLogo
+        "relative z-[93]",
         className,
       )}
     >
@@ -299,7 +324,12 @@ export function SupplyLogo({
   const tip = `MINED: ${fmtInt(supply / COIN)} / ${fmtInt(softCap / COIN)} W2MT (${pctText}%)`;
 
   return (
-    <div className="group relative mx-auto w-full max-w-full" tabIndex={0} aria-label={tip}>
+    // z-[93]: paint the wordmark ABOVE the CRT scanline overlay (z-90). At
+    // phone sizes the wordmark's fine box-drawing strokes are 1-2 device px
+    // thin and the overlay's 1px dark bands slice them into dashes (the
+    // broken "shadows" under the glyphs). The rest of the page keeps the
+    // CRT texture; vignette (91) and flicker (92) still pass over it.
+    <div className="group relative z-[93] mx-auto w-full max-w-full" tabIndex={0} aria-label={tip}>
       <pre
         ref={fitRef}
         data-testid="supply-logo"
