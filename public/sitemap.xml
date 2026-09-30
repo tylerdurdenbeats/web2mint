@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Single-page node: one canonical URL. __SITE_URL__ is stamped with the
+     real Pages URL by the deploy workflow (see .github/workflows/deploy.yml). -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>__SITE_URL__</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+</urlset>

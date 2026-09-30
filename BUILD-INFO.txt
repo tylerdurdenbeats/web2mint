@@ -1,0 +1,4 @@
+WEB2MINT SOURCE SNAPSHOT
+built_at_utc: 2026-09-30T12:39:39Z
+version: 0.0.0
+chain: bitweb-mainnet-1

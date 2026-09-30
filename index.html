@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, viewport-fit=cover" />
+    <meta name="description" content="Web2Mint [W2MT] - a peer-to-peer electronic cash system for the open web. Mine with your browser. No banks. No servers of trust." />
+    <meta name="keywords" content="web2mint, w2mt, cryptocurrency, p2p electronic cash, browser mining, web3, blockchain, decentralized, proof of work" />
+    <meta name="robots" content="index, follow" />
+    <meta name="author" content="Web2Mint Collective" />
+    <!-- __SITE_URL__ is stamped by the deploy workflow with the real Pages URL
+         (https://<owner>.github.io/<repo>/) so canonical/OG/sitemap URLs are
+         absolute and correct wherever the fork is deployed. -->
+    <link rel="canonical" href="__SITE_URL__" />
+    <link rel="sitemap" type="application/xml" title="Sitemap" href="__SITE_URL__sitemap.xml" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="__SITE_URL__" />
+    <meta property="og:site_name" content="Web2Mint" />
+    <meta property="og:title" content="WEB2MINT [W2MT] MAINNET - The Serverless Browser Node" />
+    <meta property="og:description" content="A peer-to-peer electronic cash system that runs entirely in your browser. Mine W2MT with web workers. No banks. No servers of trust." />
+    <meta property="og:image" content="__SITE_URL__og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="WEB2MINT [W2MT] MAINNET - The Serverless Browser Node" />
+    <meta name="twitter:description" content="A peer-to-peer electronic cash system that runs entirely in your browser. Mine W2MT with web workers. No banks. No servers of trust." />
+    <meta name="twitter:image" content="__SITE_URL__og-image.png" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Web2Mint",
+        "alternateName": "W2MT",
+        "url": "__SITE_URL__",
+        "applicationCategory": "FinanceApplication",
+        "operatingSystem": "Any (web browser)",
+        "browserRequirements": "Requires JavaScript",
+        "description": "A peer-to-peer electronic cash system that runs entirely in the browser. Mine W2MT with web workers, settle over a serverless mesh, no banks and no servers of trust.",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+      }
+    </script>
+    <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png" />
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <!-- Fonts: all faces live in src/assets and are referenced RELATIVELY
+         from index.css, so Vite bundles them with content hashes and rewrites
+         the URLs correctly under ANY deploy base (GitHub Pages project
+         subpaths included - absolute /fonts/* URLs 404 there). No preloads:
+         a hashed bundle path is unknowable here, and the render-blocking CSS
+         fetches the faces before first paint anyway; font-display:block in
+         the CSS guarantees the first painted text already wears VT323 /
+         IBM Plex Mono / Noto Sans Mono instead of flashing a system font. -->
+    <meta name="theme-color" content="#000000" />
+    <!-- iOS installability: Safari ignores the manifest, these are its hooks -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Web2Mint" />
+    <meta name="referrer" content="no-referrer" />
+    <!--
+      CSP for a zero-server static dapp: scripts/styles only from this origin
+      (React inline style attributes need style-src 'unsafe-inline'), network
+      limited to secure transports so the user-editable SIGNALING endpoint in
+      network.config.ts keeps working wherever it points. ws: is listed for
+      plain-WebSocket relay endpoints (RELAY_URLS / ?relay=) - on an https
+      page the browser's own mixed-content rules still force wss:. WebRTC
+      DataChannels and camera streams are not CSP-gated. (Clickjacking
+      protection needs an HTTP header - shipped as public/_headers for hosts
+      that support it.)
+    -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self' data: blob: https: wss: ws:; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'none'"
+    />
+    <title>WEB2MINT [W2MT] MAINNET - The Serverless Browser Node</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

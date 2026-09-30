@@ -1,0 +1,33 @@
+{
+  "name": "Web2Mint [W2MT] - The Serverless Browser Node",
+  "short_name": "Web2Mint",
+  "description": "A peer-to-peer electronic cash system for the open web. Mine with your browser: every tab is a full node. No banks. No servers of trust.",
+  "id": "./",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "theme_color": "#000000",
+  "background_color": "#000000",
+  "categories": ["finance", "utilities"],
+  "icons": [
+    {
+      "src": "./icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+# Web2Mint [W2MT] - every crawler welcome, nothing to hide.
+# (__SITE_URL__ is stamped with the real Pages URL by the deploy workflow.)
+User-agent: *
+Allow: /
+
+Sitemap: __SITE_URL__sitemap.xml
