@@ -171,7 +171,7 @@ describe("MqttRelayTransport - public-room mesh", () => {
           void raw.subscribeAll([]).then(() => raw.markReady());
         },
         onReady: () => {
-          const inbox = `btwb/bitweb-mainnet-1/in/${ta.selfId}`;
+          const inbox = `w2mt/web2mint-mainnet-1/in/${ta.selfId}`;
           const enc = (o: unknown) => new TextEncoder().encode(JSON.stringify(o));
           // id that fails the namespace format
           raw.publish(inbox, enc({ v: 1, t: "m", from: "evil-1", to: ta.selfId, d: "x", n: "x1" }));
@@ -182,7 +182,7 @@ describe("MqttRelayTransport - public-room mesh", () => {
           // not JSON at all
           raw.publish(inbox, new TextEncoder().encode("{not json"));
           // a lobby announce with a malformed id
-          raw.publish("btwb/bitweb-mainnet-1/lobby", enc({ v: 1, t: "hi", id: "evil-2" }));
+          raw.publish("w2mt/web2mint-mainnet-1/lobby", enc({ v: 1, t: "hi", id: "evil-2" }));
         },
         onMessage: () => undefined,
         onClose: () => undefined,
@@ -240,7 +240,7 @@ describe("MqttRelayTransport - public-room mesh", () => {
         },
         onReady: () => {
           raw.publish(
-            `btwb/bitweb-mainnet-1/in/${ta.selfId}`,
+            `w2mt/web2mint-mainnet-1/in/${ta.selfId}`,
             new TextEncoder().encode(
               JSON.stringify({ v: 1, t: "m", from: strangerId, to: ta.selfId, d: "challenge-answer", n: "z9" }),
             ),
@@ -283,7 +283,7 @@ describe("MqttRelayTransport - public-room mesh", () => {
           onConnect: () => {
             void raw.subscribeAll([]).then(() => raw.markReady());
           },
-          onReady: () => raw.publish(`btwb/bitweb-mainnet-1/in/${aFromF}`, payload),
+          onReady: () => raw.publish(`w2mt/web2mint-mainnet-1/in/${aFromF}`, payload),
           onMessage: () => undefined,
           onClose: () => undefined,
         },
@@ -463,7 +463,7 @@ describe("wake-from-sleep revival (mobile Safari)", () => {
       { clientId: "abandon-1", keepAliveSec: 1, newSocket },
       {
         onConnect: () => {
-          void client.subscribeAll(["btwb/test/abandon"]).then(() => client.markReady());
+          void client.subscribeAll(["w2mt/test/abandon"]).then(() => client.markReady());
         },
         onReady: () => undefined,
         onMessage: () => undefined,

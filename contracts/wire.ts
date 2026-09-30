@@ -1,5 +1,5 @@
 /**
- * BitWeb P2P wire protocol - browser edition.
+ * Web2Mint P2P wire protocol - browser edition.
  *
  * Nodes are browser tabs; the wire is WebRTC DataChannels (signaled through
  * the rendezvous configured in network.config.ts) or, for same-machine tabs
@@ -15,7 +15,7 @@
 // layer re-exports it so peers and consensus never drift apart.
 export { CHAIN_ID } from "./protocol";
 export const P2P_VERSION = 2;
-export const NODE_AGENT = "bitweb-web-mainnet/2.0";
+export const NODE_AGENT = "web2mint-web-mainnet/2.0";
 
 /** Blocks served per `blocks` message. */
 export const P2P_BLOCK_BATCH = 16;
@@ -88,7 +88,7 @@ export interface WireBlock {
   txs: WireTx[]; // [coinbase, ...transfers] in block order
   /**
    * PoP credits for this block: the 20% peer pool split equally. Their ids
-   * (BTWBPOP1|height|index|to|amount) commit to the merkle root between the
+   * (W2MTPOP1|height|index|to|amount) commit to the merkle root between the
    * coinbase id and the transfer ids. Absent on pre-PoP blocks = empty.
    */
   popTransfers?: Array<{ address: string; amount: number; index: number }>;

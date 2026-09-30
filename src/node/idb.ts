@@ -33,10 +33,87 @@ import {
 } from "./storage";
 
 // The database name embeds the frozen chain id and holds the wallet private
-// key plus the whole chain copy: renaming it would orphan every existing
-// user's wallet and force a full resync. It is a storage identifier, not
-// branding, and is never shown in the UI.
-const DB_NAME = `bitweb-${CHAIN_ID}`;
+// key plus the whole chain copy. The 2026-09-30 re-genesis moved it from the
+// pre-rebrand name to `w2mt-...`; the legacy wallet key is migrated across at
+// boot (see migrateLegacyWalletFromEpoch) and the old database is deleted.
+const DB_NAME = `w2mt-${CHAIN_ID}`;
+/** Pre-re-genesis database name - read once for wallet migration, then wiped. */
+const LEGACY_DB_NAME = "bitweb-bitweb-mainnet-1";
+
+/**
+ * One-time re-genesis migration (2026-09-30 epoch reset). The only user-owned
+ * bytes worth carrying across from the pre-rebrand database are the wallet
+ * private key: it is raw secp256k1, so the same key simply derives a fresh
+ * w2m1 address (zero balance) on the new chain. Everything else in the old
+ * database is a foreign chain and is WIPED, never migrated. The migration
+ * only fires when the new database has no wallet yet. Best-effort: a failure
+ * here must never block boot - the user just gets a fresh wallet.
+ */
+export async function migrateLegacyWalletFromEpoch(idb: IdbStorage): Promise<void> {
+  if (typeof indexedDB === "undefined") return;
+  let legacy: IDBDatabase | null = null;
+  try {
+    // Never create the legacy db by opening it blindly: when the browser can
+    // list databases, skip the whole dance if the name is absent.
+    const list = await indexedDB.databases?.().catch(() => undefined);
+    if (list && !list.some((d) => d.name === LEGACY_DB_NAME)) return;
+    legacy = await new Promise<IDBDatabase>((resolve, reject) => {
+      const req = indexedDB.open(LEGACY_DB_NAME);
+      req.onsuccess = () => resolve(req.result);
+      req.onerror = () => reject(req.error ?? new Error("legacy open failed"));
+      req.onupgradeneeded = () => {
+        // This open is CREATING the db - it never existed. Abort so the empty
+        // shell gets deleted in the finally block instead of lingering.
+        req.transaction?.abort();
+        reject(new Error("legacy db absent"));
+      };
+    });
+    let privHex: string | null = null;
+    if (legacy.objectStoreNames.contains("wallet")) {
+      privHex = await new Promise<string | null>((resolve) => {
+        try {
+          const req = legacy!.transaction("wallet", "readonly").objectStore("wallet").get("main");
+          req.onsuccess = () => {
+            const row = req.result as { privHex?: unknown } | undefined;
+            resolve(
+              typeof row?.privHex === "string" && /^[0-9a-f]{64}$/.test(row.privHex)
+                ? row.privHex
+                : null,
+            );
+          };
+          req.onerror = () => resolve(null);
+        } catch {
+          resolve(null);
+        }
+      });
+    }
+    if (privHex) {
+      const existing = await idb.walletGet("main");
+      if (!existing) await idb.walletPut(privHex);
+    }
+  } catch {
+    // best-effort: never block boot on a migration hiccup
+  } finally {
+    try {
+      legacy?.close();
+    } catch {
+      // ignore
+    }
+    // The old chain is a foreign network post-re-genesis: wipe its bytes from
+    // this origin whether or not a key was carried across.
+    try {
+      await new Promise<void>((resolve) => {
+        const req = indexedDB.deleteDatabase(LEGACY_DB_NAME);
+        const done = () => resolve();
+        req.onsuccess = done;
+        req.onerror = done;
+        req.onblocked = done;
+      });
+    } catch {
+      // ignore
+    }
+  }
+}
 const DB_VERSION = 2; // v2 adds the "snapshots" store
 const CHAIN_STORES = ["blocks", "transactions", "mempool", "balances", "meta", "snapshots"] as const;
 type ChainStore = (typeof CHAIN_STORES)[number];

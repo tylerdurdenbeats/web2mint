@@ -15,7 +15,7 @@ const w1 = walletFromPrivHex("01".repeat(32))!;
 // Same deterministic block-1 as chain.test.ts: coinbase-only to w1 at the
 // genesis+1 timestamp - the baked nonce verifies with ONE hash.
 const BAKED: Record<string, { nonce: number; hash: string }> = {
-  "BTWB1|1|c56c7b1e6bd77fb1cce41b3cb76d05a54c3bfd719db2942066daddf3a52352c3|d62b9190107cb799394ff51e25c12ff58a23fa360f6b632805bd0f4268d6ecc8|1787443201|": { nonce: 175577, hash: "000000f11f737b8028d03070c7decc69e1cf199d3c532ea6cf27895396333a9c" },
+  "W2MT1|1|5a8cfffbd77d6bef7ba317c347ed9106e1af4613b483606ad183ac6e3c63a519|f72870b67951742ef177fff6205a59a4c9b93cf714c1c27ae3bc769606db18dc|1790726401|": { nonce: 10944280, hash: "000000a5a3de17724f73bad848a9e2e1588c12b8c1e62f7fab526c6865277910" },
 };
 
 function powSearch(prefixAscii: string, target: string): { nonce: number; hash: string } {
@@ -48,11 +48,11 @@ describe("mempool relay policy", () => {
     const { MemoryStorage } = await import("./storage");
     await chain.initChain(new MemoryStorage());
 
-    // fund w1 with one bootstrap coinbase (350 BTWB covers 64 x 1001 units)
+    // fund w1 with one bootstrap coinbase (350 W2MT covers 64 x 1001 units)
     const tpl = await chain.buildTemplate(w1.address);
     const ts = GENESIS_TIMESTAMP + 1;
     const win = powSearch(
-      `BTWB1|${tpl.height}|${tpl.prevHash}|${tpl.merkleRoot}|${ts}|`,
+      `W2MT1|${tpl.height}|${tpl.prevHash}|${tpl.merkleRoot}|${ts}|`,
       tpl.target,
     );
     await chain.submitBlock(tpl.templateId, ts, win.nonce);

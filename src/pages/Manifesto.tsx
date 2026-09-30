@@ -42,7 +42,7 @@ export default function Manifesto() {
     <div className="mx-auto max-w-3xl space-y-6 pb-6">
       <header className="border border-neutral-700 px-4 py-6 text-center">
         <p className="text-[10px] uppercase tracking-[0.4em] text-neutral-500">
-          The Web2Mint Manifesto - Protocol v2 - bitweb-mainnet-1
+          The Web2Mint Manifesto - Protocol v2 - web2mint-mainnet-1
         </p>
         <h1 className="font-term glow mt-3 text-3xl leading-tight sm:text-4xl">
           YOU ARE NOT YOUR BALANCE
@@ -65,7 +65,7 @@ export default function Manifesto() {
           protocol - <em>not an investment, not a financial product, and not financial advice</em>.
         </P>
         <P>
-          This deployment is the <em>main network</em> (<em>bitweb-mainnet-1</em>). Coins exist
+          This deployment is the <em>main network</em> (<em>web2mint-mainnet-1</em>). Coins exist
           only because the machinery runs in the open; they have no issuer, no promised value,
           and no guarantee that anyone will ever want them.
         </P>

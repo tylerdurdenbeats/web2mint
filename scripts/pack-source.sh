@@ -22,7 +22,7 @@ VERSION="$(node -p "require('./package.json').version" 2>/dev/null || echo "0.0.
   echo "WEB2MINT SOURCE SNAPSHOT"
   echo "built_at_utc: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
   echo "version: ${VERSION}"
-  echo "chain: bitweb-mainnet-1"
+  echo "chain: web2mint-mainnet-1"
 } > "$MARKER"
 
 # .github rides along: the Pages deploy workflow must travel WITH the

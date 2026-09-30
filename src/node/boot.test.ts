@@ -39,7 +39,7 @@ describe("memory-only fallback", () => {
     expect(h.storageMode).toBe("memory");
     const info = await h.info();
     expect(info.height).toBe(0); // genesis sealed in memory
-    expect(info.chainId).toContain("bitweb");
+    expect(info.chainId).toContain("web2mint");
     h.stop();
   }, 20_000);
 });

@@ -147,8 +147,8 @@ describe("evaluateBackupReminder - cooldown", () => {
 describe("persistence", () => {
   it("marks and reads the backup epoch per address", async () => {
     const { mod } = await boot();
-    const a = "btw1" + "a".repeat(48);
-    const b = "btw1" + "b".repeat(48);
+    const a = "w2m1" + "a".repeat(48);
+    const b = "w2m1" + "b".repeat(48);
     expect(mod.lastBackupAt(a)).toBeNull();
     mod.markBackedUp(a, NOW);
     expect(mod.lastBackupAt(a)).toBe(NOW);
@@ -157,7 +157,7 @@ describe("persistence", () => {
 
   it("marks and reads the reminder epoch", async () => {
     const { mod } = await boot();
-    const a = "btw1" + "c".repeat(48);
+    const a = "w2m1" + "c".repeat(48);
     expect(mod.lastRemindedAt(a)).toBeNull();
     mod.markReminded(a, NOW);
     expect(mod.lastRemindedAt(a)).toBe(NOW);
@@ -165,7 +165,7 @@ describe("persistence", () => {
 
   it("survives a module reload through shared localStorage", async () => {
     const first = await boot();
-    const a = "btw1" + "d".repeat(48);
+    const a = "w2m1" + "d".repeat(48);
     first.mod.markBackedUp(a, NOW);
     const second = await boot(first.store); // same storage, fresh module
     expect(second.mod.lastBackupAt(a)).toBe(NOW);
@@ -175,7 +175,7 @@ describe("persistence", () => {
     const store = makeLocalStorage();
     store.setItem("w2mt.backup.v1", "{not json");
     const { mod } = await boot(store);
-    expect(mod.lastBackupAt("btw1" + "e".repeat(48))).toBeNull();
+    expect(mod.lastBackupAt("w2m1" + "e".repeat(48))).toBeNull();
     store.setItem("w2mt.backup.v1", JSON.stringify({ backups: { x: "junk" }, reminders: { x: -5 } }));
     expect(mod.lastBackupAt("x")).toBeNull(); // non-numeric epochs dropped
     expect(mod.lastRemindedAt("x")).toBeNull();
@@ -200,7 +200,7 @@ describe("persistence", () => {
       writable: true,
     });
     const mod = await import("./backup");
-    const a = "btw1" + "f".repeat(48);
+    const a = "w2m1" + "f".repeat(48);
     expect(() => mod.markBackedUp(a)).not.toThrow();
     expect(mod.lastBackupAt(a)).toBeNull();
   });

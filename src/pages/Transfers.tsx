@@ -174,11 +174,11 @@ export default function Transfers() {
             <div className="grid gap-2 sm:grid-cols-[1fr_150px_150px_auto]">
               <label className="block">
                 <span className="mb-0.5 block text-[10px] uppercase tracking-[0.2em] text-neutral-500">
-                  Recipient (btw1...)
+                  Recipient (w2m1...)
                 </span>
                 <input
                   className="term-input"
-                  placeholder="btw1..."
+                  placeholder="w2m1..."
                   value={to}
                   onChange={(e) => setTo(e.target.value.trim())}
                   spellCheck={false}
@@ -259,7 +259,7 @@ export default function Transfers() {
                 <Qr payload={myQrUri} caption="SCAN TO PAY THIS TERMINAL" />
                 <div className="w-full min-w-0 space-y-2 text-xs">
                   <p className="text-neutral-400">
-                    Show this to the sender's camera. The code carries your btw1 address
+                    Show this to the sender's camera. The code carries your w2m1 address
                     {reqAmount.trim() ? " and the requested amount" : ""} - nothing else.
                   </p>
                   <label className="block max-w-56">
@@ -326,7 +326,7 @@ export default function Transfers() {
           <div className="flex gap-2">
             <input
               className="term-input flex-1"
-              placeholder="btw1... inspect any address"
+              placeholder="w2m1... inspect any address"
               value={lookup}
               onChange={(e) => setLookup(e.target.value.trim())}
               spellCheck={false}
@@ -338,7 +338,7 @@ export default function Transfers() {
             <LookupView address={lookup} />
           ) : (
             <p className="mt-2 text-[11px] text-neutral-600">
-              Paste any btw1 address to read its live balance and ledger from the chain.
+              Paste any w2m1 address to read its live balance and ledger from the chain.
             </p>
           )}
         </Panel>

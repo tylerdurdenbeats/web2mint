@@ -24,8 +24,8 @@ import { MemoryStorage } from "./storage";
 const w1 = walletFromPrivHex("01".repeat(32))!;
 const w2 = walletFromPrivHex("02".repeat(32))!;
 const BAKED: Record<string, { nonce: number; hash: string }> = {
-  "BTWB1|1|c56c7b1e6bd77fb1cce41b3cb76d05a54c3bfd719db2942066daddf3a52352c3|d62b9190107cb799394ff51e25c12ff58a23fa360f6b632805bd0f4268d6ecc8|1787443201|": { nonce: 175577, hash: "000000f11f737b8028d03070c7decc69e1cf199d3c532ea6cf27895396333a9c" },
-  "BTWB1|2|000000f11f737b8028d03070c7decc69e1cf199d3c532ea6cf27895396333a9c|1ecffd4468443e373cd6f1617675e1376d27d63ec87322656829b608406a42a0|1787443202|": { nonce: 5901258, hash: "00000206c4e7ccaaac4bb1ca76d499104fe20edc4db9de7d03983d7458b15078" },
+  "W2MT1|1|5a8cfffbd77d6bef7ba317c347ed9106e1af4613b483606ad183ac6e3c63a519|f72870b67951742ef177fff6205a59a4c9b93cf714c1c27ae3bc769606db18dc|1790726401|": { nonce: 10944280, hash: "000000a5a3de17724f73bad848a9e2e1588c12b8c1e62f7fab526c6865277910" },
+  "W2MT1|2|000000a5a3de17724f73bad848a9e2e1588c12b8c1e62f7fab526c6865277910|bad40a903f58dc31143af691e6d7445cc58cb0f9e05681959150851d2341a344|1790726402|": { nonce: 6755367, hash: "000000f2e3e0f93ee7d44e86e01a725019c5ba895cc1cdd858e2816e95f50ae3" },
   // block #1 paying w1 - identical preimage to chain.test.ts (same miner, same parent)
   // block #2 paying w1, carrying the w1->w2 transfer (deterministic txid) -
   // mined twice in the narrative (original chain + healing branch), same bake
@@ -50,7 +50,7 @@ async function mineOne(): Promise<{ height: number; hash: string }> {
   const tpl = await buildTemplate(w1.address);
   const ts = tpl.minTimestamp;
   const { nonce } = powSearch(
-    `BTWB1|${tpl.height}|${tpl.prevHash}|${tpl.merkleRoot}|${ts}|`,
+    `W2MT1|${tpl.height}|${tpl.prevHash}|${tpl.merkleRoot}|${ts}|`,
     tpl.target,
   );
   const r = await submitBlock(tpl.templateId, ts, nonce);
@@ -63,11 +63,11 @@ let b2hash = "";
 
 beforeAll(async () => {
   await initChain(new MemoryStorage());
-  await mineOne(); // block 1: 350 BTWB to w1 (bootstrap 500 x 70%)
+  await mineOne(); // block 1: 350 W2MT to w1 (bootstrap 500 x 70%)
   const i1 = await getInfo();
   supplyAt1 = i1.totalSupply;
 
-  // w1 sends 100 BTWB + fee to w2; the transfer sits in the mempool
+  // w1 sends 100 W2MT + fee to w2; the transfer sits in the mempool
   const signature = signTransfer(w1.privHex, {
     from: w1.address,
     to: w2.address,

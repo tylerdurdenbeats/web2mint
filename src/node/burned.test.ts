@@ -23,10 +23,10 @@ const w2 = walletFromPrivHex("02".repeat(32))!;
 // Deterministic PoW, coinbase-only chain paying w1 (same preimages as
 // chain-gate.test.ts / import-safety.test.ts - searched once, baked).
 const BAKED: Record<string, { nonce: number; hash: string }> = {
-  "BTWB1|1|c56c7b1e6bd77fb1cce41b3cb76d05a54c3bfd719db2942066daddf3a52352c3|d62b9190107cb799394ff51e25c12ff58a23fa360f6b632805bd0f4268d6ecc8|1787443201|": { nonce: 175577, hash: "000000f11f737b8028d03070c7decc69e1cf199d3c532ea6cf27895396333a9c" },
-  "BTWB1|2|000000f11f737b8028d03070c7decc69e1cf199d3c532ea6cf27895396333a9c|e77599e7f9dbb191ff935eaa383ebb388616bf785ce87173a73ed59bcf41ba27|1787443202|": { nonce: 8699338, hash: "0000018c8f7cb7fd26d55c2201def5173ef6bbc90a1518e090d25a126609de77" },
-  "BTWB1|2|000000f11f737b8028d03070c7decc69e1cf199d3c532ea6cf27895396333a9c|effcd74ffd22e3e368fe9b92eefecaa2475238a678c4033dff3111f0cc0bd7c8|1787443202|": { nonce: 5788538, hash: "000001b8f99391e55857d8e90ea1746134c30b689c4fed6d369a2cafe667b1ff" },
-  "BTWB1|3|0000018c8f7cb7fd26d55c2201def5173ef6bbc90a1518e090d25a126609de77|310b1cbfa1b4759aa9d83cdae0aebfc002c52a1893cbbf7fd58ccb5184ca7d52|1787443203|": { nonce: 4550900, hash: "0000019c681bbcc35fa1ae47a1915afa8cbe42604cc0d35bdbecbb5d5003d4a6" },
+  "W2MT1|1|5a8cfffbd77d6bef7ba317c347ed9106e1af4613b483606ad183ac6e3c63a519|f72870b67951742ef177fff6205a59a4c9b93cf714c1c27ae3bc769606db18dc|1790726401|": { nonce: 10944280, hash: "000000a5a3de17724f73bad848a9e2e1588c12b8c1e62f7fab526c6865277910" },
+  "W2MT1|2|000000a5a3de17724f73bad848a9e2e1588c12b8c1e62f7fab526c6865277910|db890a297076e7698a524f956677ae4a3256aba1c2d10e3f48728f0a732214e3|1790726402|": { nonce: 10249328, hash: "000003b5c1bc2d0dba1800fb3d5f51ad1b740c64c08b79408dfe8dc1cdaf04cc" },
+  "W2MT1|2|000000a5a3de17724f73bad848a9e2e1588c12b8c1e62f7fab526c6865277910|3a89e8d011489d4d9b5ba885e3311a72134ec02ceae8391230be113d108e1ed3|1790726402|": { nonce: 4696894, hash: "0000008a9ebe6418645ebed6e6e2118e2d084181ef264c1d975d7a092872fbf4" },
+  "W2MT1|3|0000008a9ebe6418645ebed6e6e2118e2d084181ef264c1d975d7a092872fbf4|b306d79aa1cad36f26cb906563f71acd4c3f49c291bfa951008bde13529d35d9|1790726403|": { nonce: 4438951, hash: "000002243a8692b6fe826e97559d6a4352df5a62856377263e98f51995b43ce3" },
 };
 
 function powSearch(prefixAscii: string, target: string): { nonce: number; hash: string } {
@@ -57,19 +57,19 @@ async function mineOne(chain: ChainModule): Promise<{ height: number; hash: stri
   const tpl = await chain.buildTemplate(w1.address);
   const ts = tpl.minTimestamp;
   const { nonce } = powSearch(
-    `BTWB1|${tpl.height}|${tpl.prevHash}|${tpl.merkleRoot}|${ts}|`,
+    `W2MT1|${tpl.height}|${tpl.prevHash}|${tpl.merkleRoot}|${ts}|`,
     tpl.target,
   );
   const r = await chain.submitBlock(tpl.templateId, ts, nonce);
   return { height: r.height, hash: r.hash };
 }
 
-// Bootstrap era: 500 BTWB per block; solo miner (zero attesting peers)
+// Bootstrap era: 500 W2MT per block; solo miner (zero attesting peers)
 // mints only the 70% share = 350; the other 150 (10% burn + unclaimed 20%
 // pool) is gone forever.
 const BLOCK_EMISSION = 500 * COIN;
 const SOLO_MINTED = 350 * COIN;
-const SOLO_BURNED = BLOCK_EMISSION - SOLO_MINTED; // 150 BTWB
+const SOLO_BURNED = BLOCK_EMISSION - SOLO_MINTED; // 150 W2MT
 
 describe("totalBurned - the BURNED FOREVER counter", () => {
   it("genesis: nothing emitted, nothing burned", async () => {

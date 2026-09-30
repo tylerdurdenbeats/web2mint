@@ -145,10 +145,10 @@ export class BroadcastTransport implements Transport {
 
   constructor(selfId?: string, channelName?: string) {
     this.selfId = selfId ?? randomPeerId("tab");
-    // Channel name embeds the frozen chain id; same-browser tabs of mixed
-    // builds (service-worker update window) must keep hearing each other, so
-    // this wire identifier stays even though it predates the rebrand.
-    this.channelName = channelName ?? `bitweb-v2-${CHAIN_ID}`;
+    // Channel name embeds the frozen chain id; the 2026-09-30 re-genesis
+    // renamed it alongside the chain itself (old-build tabs run a foreign
+    // chain now, so cross-build tab meshing is neither needed nor wanted).
+    this.channelName = channelName ?? `w2mt-v2-${CHAIN_ID}`;
   }
 
   start(events: TransportEvents): Promise<void> {

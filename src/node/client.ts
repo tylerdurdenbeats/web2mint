@@ -31,7 +31,7 @@ import {
   type TemplateView,
 } from "./chain";
 export { ChainConflictError, ChainDowngradeError } from "./chain";
-import { IdbStallError, IdbStorage } from "./idb";
+import { IdbStallError, IdbStorage, migrateLegacyWalletFromEpoch } from "./idb";
 import { MemoryStorage } from "./storage";
 import { P2pEngine, type PeerView } from "./p2p";
 import type { ChainStorage } from "./storage";
@@ -151,6 +151,9 @@ async function bootFresh(opts: BootOptions = {}): Promise<NodeHandle> {
     try {
       const idb = new IdbStorage();
       await idb.open();
+      // Re-genesis migration: carry the wallet key across from the legacy
+      // pre-rebrand database, then wipe that foreign chain's bytes.
+      await migrateLegacyWalletFromEpoch(idb);
       storage = idb;
       storageMode = "persistent";
       // Ask the browser to never auto-evict this origin's data under quota

@@ -181,7 +181,7 @@ describe("the gate still has teeth", () => {
 
     fake.open("peer-d");
     await until(() => fake.framesTo("peer-d", "hello").length === 1);
-    fake.rx("peer-d", "this is not a bitweb frame");
+    fake.rx("peer-d", "this is not a web2mint frame");
     await until(() => node.peers()[0]?.strikes === 1);
   });
 });

@@ -13,8 +13,8 @@ It is a technology experiment.
 
 ## Mainnet
 
-This build IS the main network: chain id `bitweb-mainnet-1`,
-born 2026-08-23 (genesis timestamp 1787443200). The earlier
+This build IS the main network: chain id `web2mint-mainnet-1`,
+born 2026-09-30 (genesis timestamp 1790726400). The earlier
 experimental network is archived and retired - its coins never
 migrated, exactly as promised. Every v2 signature binds this
 chain id, so data from any other network can never leak onto
@@ -73,7 +73,7 @@ equally among all connected peers. This works on mobile too.
 PoP is secured by peer attestations. Each connected peer signs
 a cryptographic attestation proving they are connected:
 
-  BTWBPOP_ATTEST|{miner node id}|{peer address}|{timestamp}
+  W2MTPOP_ATTEST|{miner node id}|{peer address}|{timestamp}
 
 Peers sign right after every handshake and re-sign every 60
 seconds. The miner includes these attestations in the block.

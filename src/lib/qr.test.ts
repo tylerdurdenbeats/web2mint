@@ -23,7 +23,7 @@ describe("buildPaymentUri", () => {
   });
 
   it("rejects invalid addresses and amounts", () => {
-    expect(buildPaymentUri("btw1deadbeef")).toBeNull();
+    expect(buildPaymentUri("w2m1deadbeef")).toBeNull();
     expect(buildPaymentUri(A, "abc")).toBeNull();
     expect(buildPaymentUri(A, "-1")).toBeNull();
     expect(buildPaymentUri(A, "0")).toBeNull();
@@ -48,13 +48,14 @@ describe("parsePaymentUri", () => {
     expect(parsePaymentUri(`  ${A.toUpperCase()}  `)).toEqual({ address: A, amount: undefined });
   });
 
-  it("still accepts the legacy pre-rebrand scheme (old printed QRs never die)", () => {
-    expect(parsePaymentUri(`bitweb:${A}`)).toEqual({ address: A, amount: undefined });
-    expect(parsePaymentUri(`bitweb:${A}?amount=3.25`)).toEqual({ address: A, amount: "3.25" });
+  it("rejects schemes from other networks and eras", () => {
+    // The pre-rebrand scheme is gone with the old chain: a legacy QR now
+    // names a foreign network and must fail closed, never parse.
+    expect(parsePaymentUri(`web3mint:${A}`)).toBeNull();
   });
 
   it("accepts '&' separator and ignores unknown params", () => {
-    expect(parsePaymentUri(`bitweb:${A}?label=shop&amount=3.25`)).toEqual({
+    expect(parsePaymentUri(`web2mint:${A}?label=shop&amount=3.25`)).toEqual({
       address: A,
       amount: "3.25",
     });
@@ -64,19 +65,19 @@ describe("parsePaymentUri", () => {
     expect(parsePaymentUri("")).toBeNull();
     expect(parsePaymentUri("hello world")).toBeNull();
     expect(parsePaymentUri(`bitcoin:${A}`)).toBeNull();
-    expect(parsePaymentUri(`bitweb:${B.slice(0, -1)}x`)).toBeNull();
-    expect(parsePaymentUri(`bitweb:${A}?amount=abc`)).toBeNull();
-    expect(parsePaymentUri(`bitweb:${A}?amount=-5`)).toBeNull();
-    expect(parsePaymentUri(`bitweb:${A}?amount=0`)).toBeNull();
-    expect(parsePaymentUri(`bitweb:${A}?amount=%E0%A4%A`)).toBeNull(); // bad percent-encoding
-    expect(parsePaymentUri(`bitweb:${A}?amount=1e3`)).toBeNull(); // scientific notation not allowed
+    expect(parsePaymentUri(`web2mint:${B.slice(0, -1)}x`)).toBeNull();
+    expect(parsePaymentUri(`web2mint:${A}?amount=abc`)).toBeNull();
+    expect(parsePaymentUri(`web2mint:${A}?amount=-5`)).toBeNull();
+    expect(parsePaymentUri(`web2mint:${A}?amount=0`)).toBeNull();
+    expect(parsePaymentUri(`web2mint:${A}?amount=%E0%A4%A`)).toBeNull(); // bad percent-encoding
+    expect(parsePaymentUri(`web2mint:${A}?amount=1e3`)).toBeNull(); // scientific notation not allowed
     expect(parsePaymentUri(null as unknown as string)).toBeNull();
   });
 
   it("rejects a URI whose address has a flipped checksum", () => {
     // Flip one checksum character - checkAddress must catch it.
     const bad = A.slice(0, -1) + (A.endsWith("0") ? "1" : "0");
-    expect(parsePaymentUri(`bitweb:${bad}`)).toBeNull();
+    expect(parsePaymentUri(`web2mint:${bad}`)).toBeNull();
   });
 });
 
@@ -117,7 +118,7 @@ describe("QR image roundtrip (encode -> PNG -> camera-style decode)", () => {
 describe("address sanity", () => {
   it("generated wallet addresses pass checkAddress via protocol builder", () => {
     expect(A).toHaveLength(52);
-    expect(A.startsWith("btw1")).toBe(true);
+    expect(A.startsWith("w2m1")).toBe(true);
     // buildAddress is the canonical constructor - must agree with wallet gen.
     expect(buildAddress(A.slice(4, 44), dsha256Hex)).toBe(A);
   });

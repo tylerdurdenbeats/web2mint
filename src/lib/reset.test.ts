@@ -1,9 +1,10 @@
 /**
  * Reset local data - unit tests with faked browser globals. Verifies the
  * exact wipe set: w2mt.* localStorage keys plus any pre-rebrand btwb.*
- * leftovers, all of sessionStorage, the chain database by its real name,
- * then a reload - and that a blocked or missing IndexedDB still ends in
- * reload (the user must never stay trapped on the failure screen).
+ * leftovers, all of sessionStorage, the chain database by its real name
+ * (plus the legacy pre-re-genesis database), then a reload - and that a
+ * blocked or missing IndexedDB still ends in reload (the user must never
+ * stay trapped on the failure screen).
  */
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { CHAIN_ID } from "@contracts/protocol";
@@ -87,8 +88,8 @@ describe("resetLocalData", () => {
   it("clears sessionStorage and deletes the chain database by its real name", async () => {
     await resetLocalData();
     expect(sessionClear).toHaveBeenCalledOnce();
-    expect(deletedNames).toEqual([`bitweb-${CHAIN_ID}`]);
-    expect(deletedNames[0]).toBe("bitweb-bitweb-mainnet-1");
+    expect(deletedNames).toEqual([`w2mt-${CHAIN_ID}`, "bitweb-bitweb-mainnet-1"]);
+    expect(deletedNames[0]).toBe("w2mt-web2mint-mainnet-1");
   });
 
   it("reloads after a successful wipe", async () => {
@@ -120,7 +121,7 @@ describe("resetLocalData", () => {
     // Object.keys on the stub throws -> caught -> continue with the rest
     await resetLocalData();
     expect(sessionClear).toHaveBeenCalledOnce();
-    expect(deletedNames).toEqual([`bitweb-${CHAIN_ID}`]);
+    expect(deletedNames).toEqual([`w2mt-${CHAIN_ID}`, "bitweb-bitweb-mainnet-1"]);
     expect(reload).toHaveBeenCalledOnce();
   });
 });

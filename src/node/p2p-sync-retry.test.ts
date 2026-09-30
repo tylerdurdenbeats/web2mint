@@ -83,10 +83,10 @@ class FakeTransport implements Transport {
 
 // -- deterministic PoW (same baked blocks as p2p.test.ts: w1 solo #1-#2) ----
 const BAKED: Record<string, { nonce: number; hash: string }> = {
+  "W2MT1|1|5a8cfffbd77d6bef7ba317c347ed9106e1af4613b483606ad183ac6e3c63a519|f72870b67951742ef177fff6205a59a4c9b93cf714c1c27ae3bc769606db18dc|1790726401|": { nonce: 10944280, hash: "000000a5a3de17724f73bad848a9e2e1588c12b8c1e62f7fab526c6865277910" },
+  "W2MT1|2|000000a5a3de17724f73bad848a9e2e1588c12b8c1e62f7fab526c6865277910|3a89e8d011489d4d9b5ba885e3311a72134ec02ceae8391230be113d108e1ed3|1790726402|": { nonce: 4696894, hash: "0000008a9ebe6418645ebed6e6e2118e2d084181ef264c1d975d7a092872fbf4" },
   // block #1 paying w1 - identical preimage to chain.test.ts (same miner, same parent)
-  "BTWB1|1|c56c7b1e6bd77fb1cce41b3cb76d05a54c3bfd719db2942066daddf3a52352c3|d62b9190107cb799394ff51e25c12ff58a23fa360f6b632805bd0f4268d6ecc8|1787443201|": { nonce: 175577, hash: "000000f11f737b8028d03070c7decc69e1cf199d3c532ea6cf27895396333a9c" },
   // block #2 paying w1, coinbase only (the longest-chain regression in p2p.test.ts)
-  "BTWB1|2|000000f11f737b8028d03070c7decc69e1cf199d3c532ea6cf27895396333a9c|e77599e7f9dbb191ff935eaa383ebb388616bf785ce87173a73ed59bcf41ba27|1787443202|": { nonce: 8699338, hash: "0000018c8f7cb7fd26d55c2201def5173ef6bbc90a1518e090d25a126609de77" },
 };
 
 function powSearch(prefixAscii: string, target: string): { nonce: number; hash: string } {
@@ -99,7 +99,10 @@ function powSearch(prefixAscii: string, target: string): { nonce: number; hash: 
     msg.set(bytes);
     msg.set(nonceBytes, bytes.length);
     const hash = bytesToHex(sha256(sha256(msg)));
-    if (hashMeetsTarget(hash, target)) return { nonce, hash };
+    if (hashMeetsTarget(hash, target)) {
+      console.log(`BAKE: "${prefixAscii}": { nonce: ${nonce}, hash: "${hash}" },`);
+      return { nonce, hash };
+    }
   }
   throw new Error("nonce space exhausted");
 }
@@ -128,7 +131,7 @@ describe("catch-up sync resilience - quiet peers retried inside one gate", () =>
     for (let i = 0; i < 2; i++) {
       const tpl = await donor.template(w1.address);
       const { nonce } = powSearch(
-        `BTWB1|${tpl.height}|${tpl.prevHash}|${tpl.merkleRoot}|${tpl.minTimestamp}|`,
+        `W2MT1|${tpl.height}|${tpl.prevHash}|${tpl.merkleRoot}|${tpl.minTimestamp}|`,
         tpl.target,
       );
       await donor.submitBlock(tpl.templateId, tpl.minTimestamp, nonce);
@@ -206,7 +209,7 @@ describe("catch-up sync resilience - quiet peers retried inside one gate", () =>
     const donor = await clientA.bootNode({ storage: new MemA(), transports: [] });
     const tpl = await donor.template(w1.address);
     const { nonce } = powSearch(
-      `BTWB1|${tpl.height}|${tpl.prevHash}|${tpl.merkleRoot}|${tpl.minTimestamp}|`,
+      `W2MT1|${tpl.height}|${tpl.prevHash}|${tpl.merkleRoot}|${tpl.minTimestamp}|`,
       tpl.target,
     );
     await donor.submitBlock(tpl.templateId, tpl.minTimestamp, nonce);
@@ -260,7 +263,7 @@ describe("catch-up sync resilience - quiet peers retried inside one gate", () =>
     const donor = await clientA.bootNode({ storage: new MemA(), transports: [] });
     const tpl = await donor.template(w1.address);
     const { nonce } = powSearch(
-      `BTWB1|${tpl.height}|${tpl.prevHash}|${tpl.merkleRoot}|${tpl.minTimestamp}|`,
+      `W2MT1|${tpl.height}|${tpl.prevHash}|${tpl.merkleRoot}|${tpl.minTimestamp}|`,
       tpl.target,
     );
     await donor.submitBlock(tpl.templateId, tpl.minTimestamp, nonce);
@@ -332,7 +335,7 @@ describe("catch-up sync resilience - quiet peers retried inside one gate", () =>
     for (let i = 0; i < 2; i++) {
       const tpl = await donor.template(w1.address);
       const { nonce } = powSearch(
-        `BTWB1|${tpl.height}|${tpl.prevHash}|${tpl.merkleRoot}|${tpl.minTimestamp}|`,
+        `W2MT1|${tpl.height}|${tpl.prevHash}|${tpl.merkleRoot}|${tpl.minTimestamp}|`,
         tpl.target,
       );
       await donor.submitBlock(tpl.templateId, tpl.minTimestamp, nonce);

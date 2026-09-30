@@ -46,17 +46,19 @@ import { MemoryStorage } from "./storage";
 // instead of grinding ~2^22 hashes per block. Any narrative change simply
 // falls back to the live search (slow but correct) and prints new solutions.
 const BAKED: Record<string, { nonce: number; hash: string }> = {
-  "BTWB1|1|c56c7b1e6bd77fb1cce41b3cb76d05a54c3bfd719db2942066daddf3a52352c3|d62b9190107cb799394ff51e25c12ff58a23fa360f6b632805bd0f4268d6ecc8|1787443201|": { nonce: 175577, hash: "000000f11f737b8028d03070c7decc69e1cf199d3c532ea6cf27895396333a9c" },
-  "BTWB1|2|000000f11f737b8028d03070c7decc69e1cf199d3c532ea6cf27895396333a9c|e77599e7f9dbb191ff935eaa383ebb388616bf785ce87173a73ed59bcf41ba27|1787443202|": { nonce: 8699338, hash: "0000018c8f7cb7fd26d55c2201def5173ef6bbc90a1518e090d25a126609de77" },
-  "BTWB1|3|0000018c8f7cb7fd26d55c2201def5173ef6bbc90a1518e090d25a126609de77|78836ca5bcb6238b49471a653635f91555a56cfcf1e0ee5bcc42f33d5652955b|1787443203|": { nonce: 9120488, hash: "000002b1d5a41f93b1ae77cceae19c604414ad41120d1b39928aad7c57b1d2c2" },
-  "BTWB1|3|0000018c8f7cb7fd26d55c2201def5173ef6bbc90a1518e090d25a126609de77|970f09826329a839ee515b54ee7c31e8351675bfb6793bd3e6aaccd4ca0febe7|1787443203|": { nonce: 1445584, hash: "00000353c8181d31c7f5c9ee8a12e881860aa664ec05bc59dd57100d87b73235" },
-  "BTWB1|4|00000353c8181d31c7f5c9ee8a12e881860aa664ec05bc59dd57100d87b73235|2c241baa0430c37bc492514afd978144868bfdf62496e21612a5eadb3c6b8fd8|1787443204|": { nonce: 832245, hash: "000000eeda9d97aa355cc6d494aec3909a9900bd6b1875928fd58bf2ccc55bdb" },
-  "BTWB1|5|000000eeda9d97aa355cc6d494aec3909a9900bd6b1875928fd58bf2ccc55bdb|5d0869d19f8b2804a2b8b6a8334a547b5dc554eee604ecbbf2c0260d7e780a47|1787443205|": { nonce: 5348210, hash: "0000019645e08e9df21c8d712677480b5a98fae22e09a127daf95aaf3b2c13a6" },
-  "BTWB1|6|0000019645e08e9df21c8d712677480b5a98fae22e09a127daf95aaf3b2c13a6|83897c0105b3ebe4d04c5d135f84a37c638ef910230186622a974e0498a9342c|1787443206|": { nonce: 3392381, hash: "0000012208d1ea2d320e03918728d481fa69bdf574127c5d6bc3e12c4b50de93" },
-  "BTWB1|7|0000012208d1ea2d320e03918728d481fa69bdf574127c5d6bc3e12c4b50de93|274a12f5a0436624c607be2d95284688d0a4226ac109da7f9afaabc9f61cccad|1787443207|": { nonce: 5953635, hash: "000002c56370121ffc7ba6997249eeb74434b44231e520dd726ebfa3910a0115" },
-  "BTWB1|7|0000012208d1ea2d320e03918728d481fa69bdf574127c5d6bc3e12c4b50de93|29016466ab5fb0185558d0c896a3c99788254f6a45ec3049edea8a372b2ebc6d|1787443207|": { nonce: 1287669, hash: "0000003a97d5d243b8be6a0a839c89c705627f520d99cad72183886060c62aff" },
-  "BTWB1|7|0000012208d1ea2d320e03918728d481fa69bdf574127c5d6bc3e12c4b50de93|6af2386c0f4e44b72101c1459d1f6c799648f45204ef27329db819ced6e6eec5|1787443207|": { nonce: 7883442, hash: "00000035a7605cadffd8e9bb0426289d3987f4ac1f09f4ae5dac1d607cd35fa3" },
-  "BTWB1|7|0000012208d1ea2d320e03918728d481fa69bdf574127c5d6bc3e12c4b50de93|a3417c1dab19ad6ff3d0f288f9d3b65bd912022ece83769b5e0b27962d1cb721|1787443207|": { nonce: 3709925, hash: "0000000eaef89bb372ec112b32d44756d1fd99cd33e75248928583c912e3527c" },
+  "W2MT1|7|0000004d243dae71ecf0ec46b68894e1ea539baa824f60c17441c9a7ab8516df|25d594fe04953c0dd72a0179ad153a3cd3fc502c9128bfb3add3528508992bd7|1790780233|": { nonce: 131070, hash: "000000089945bc2be94a71d9745138ef5efbc9a103f7e888661762fb2d98015a" },
+  "W2MT1|1|5a8cfffbd77d6bef7ba317c347ed9106e1af4613b483606ad183ac6e3c63a519|f72870b67951742ef177fff6205a59a4c9b93cf714c1c27ae3bc769606db18dc|1790726401|": { nonce: 10944280, hash: "000000a5a3de17724f73bad848a9e2e1588c12b8c1e62f7fab526c6865277910" },
+  "W2MT1|2|000000a5a3de17724f73bad848a9e2e1588c12b8c1e62f7fab526c6865277910|3a89e8d011489d4d9b5ba885e3311a72134ec02ceae8391230be113d108e1ed3|1790726402|": { nonce: 4696894, hash: "0000008a9ebe6418645ebed6e6e2118e2d084181ef264c1d975d7a092872fbf4" },
+  "W2MT1|3|0000008a9ebe6418645ebed6e6e2118e2d084181ef264c1d975d7a092872fbf4|94b68e6a0dd91fa295c40f13f66c58fe4f06be07d294a9a8182d2c512133c0f5|1790726403|": { nonce: 2219337, hash: "0000022028cb577a23c4f14f3aa5a0dc752098855ee0de95fab19ba01884486e" },
+  "W2MT1|3|0000008a9ebe6418645ebed6e6e2118e2d084181ef264c1d975d7a092872fbf4|91cb83215e346b2c8f61af3b71c7ffa64e6a5f95dd2bee274b752f688ed4a2e4|1790726403|": { nonce: 1274072, hash: "0000012860582197d6fa0ee996861c6a6d7f67993e5de3fda444bd7fbcfdeac5" },
+  "W2MT1|4|0000012860582197d6fa0ee996861c6a6d7f67993e5de3fda444bd7fbcfdeac5|70747da059e0ee7683bbe2668320fb77f3b93b0bbbe0765de3d3255bb5ddb020|1790726404|": { nonce: 5799592, hash: "000001ddd5940af634c02e1bc950ded89b0a900d978d85be880b03b50eb004b6" },
+  "W2MT1|5|000001ddd5940af634c02e1bc950ded89b0a900d978d85be880b03b50eb004b6|971ebe8d1548c4d202ab3c3cc0c26cf412f8df000e931b3b4d05d72c75167d95|1790726405|": { nonce: 3139307, hash: "0000025af98d10dbe1a34b786b700b1e9ecff55f6c822bdec7fda26353146617" },
+  "W2MT1|6|0000025af98d10dbe1a34b786b700b1e9ecff55f6c822bdec7fda26353146617|92dcc0e29deae52b5c0789b7352fdfac1ad5e8397aa384bca9eebc279417ce0b|1790726406|": { nonce: 13636091, hash: "0000004d243dae71ecf0ec46b68894e1ea539baa824f60c17441c9a7ab8516df" },
+  "W2MT1|7|0000004d243dae71ecf0ec46b68894e1ea539baa824f60c17441c9a7ab8516df|4dc9f4ae2c13b2c1e5e53df5f9ce0bfc57520b19716188823ac4ec05b304c336|1790726407|": { nonce: 3725285, hash: "00000096b740b0d3b5ded4b6a059af8002332a591044ce2408d567fc04aa523b" },
+  "W2MT1|7|0000004d243dae71ecf0ec46b68894e1ea539baa824f60c17441c9a7ab8516df|25d594fe04953c0dd72a0179ad153a3cd3fc502c9128bfb3add3528508992bd7|1790726407|": { nonce: 5726857, hash: "000000af1327967f31291904022907e285d125a1033ab7e98f5813ce8c8aa575" },
+  "W2MT1|7|0000004d243dae71ecf0ec46b68894e1ea539baa824f60c17441c9a7ab8516df|a281471fe3dcea4c7e77e3fe294d23c924837d6c55feac0e902a16925adf4e01|1790726407|": { nonce: 1790151, hash: "000002b738dd4ce44c4244c2afa0cd008d950d947018dc20e00bc8b243d611a4" },
+  "W2MT1|7|0000004d243dae71ecf0ec46b68894e1ea539baa824f60c17441c9a7ab8516df|89b82d612ece85e5e1371ddf0a79aea88b45a05167c0599ba17506dabadaa8ef|1790726407|": { nonce: 1762845, hash: "00000159cf2b255c15d308c0d2430bb6f1b8a94853b65ffd3a848ddc1c163db9" },
+  "W2MT1|7|0000004d243dae71ecf0ec46b68894e1ea539baa824f60c17441c9a7ab8516df|25d594fe04953c0dd72a0179ad153a3cd3fc502c9128bfb3add3528508992bd7|1790775083|": { nonce: 2892711, hash: "00000188c211540e7be91a03c76f230c5bb882fdfa58311388f82e4caeb9bd01" },
 };
 
 function powSearch(prefixAscii: string, target: string): { nonce: number; hash: string } {
@@ -86,7 +88,7 @@ async function mineNextBlock(miner: string): Promise<{ height: number; hash: str
   const tpl: TemplateView = await buildTemplate(miner);
   const ts = tpl.minTimestamp; // deterministic - the whole narrative is
   const { nonce } = powSearch(
-    `BTWB1|${tpl.height}|${tpl.prevHash}|${tpl.merkleRoot}|${ts}|`,
+    `W2MT1|${tpl.height}|${tpl.prevHash}|${tpl.merkleRoot}|${ts}|`,
     tpl.target,
   );
   return submitBlock(tpl.templateId, ts, nonce);
@@ -102,7 +104,7 @@ async function mineNextBlockRealtime(miner: string): Promise<{ height: number; h
   const tpl: TemplateView = await buildTemplate(miner);
   const ts = Math.max(tpl.minTimestamp, nowSeconds());
   const { nonce } = powSearch(
-    `BTWB1|${tpl.height}|${tpl.prevHash}|${tpl.merkleRoot}|${ts}|`,
+    `W2MT1|${tpl.height}|${tpl.prevHash}|${tpl.merkleRoot}|${ts}|`,
     tpl.target,
   );
   return submitBlock(tpl.templateId, ts, nonce);
@@ -117,7 +119,7 @@ function attest(w: WalletKeys, minerPeerId: string, timestamp: number): PopAttes
     timestamp,
   };
 }
-const TEST_NODE_ID = "btwb-test-miner-node";
+const TEST_NODE_ID = "w2mt-test-miner-node";
 
 /** Craft a valid coinbase-only block extending `storage`'s block at height-1. */
 async function craftSideBlock(
@@ -132,7 +134,7 @@ async function craftSideBlock(
   const merkleRoot = merkleRootHex([cbTxid]);
   const ts = prev.timestamp + 1;
   const { nonce, hash } = powSearch(
-    `BTWB1|${height}|${prev.hash}|${merkleRoot}|${ts}|`,
+    `W2MT1|${height}|${prev.hash}|${merkleRoot}|${ts}|`,
     prev.target,
   );
   return {
@@ -183,12 +185,12 @@ describe("browser chain node - full lifecycle", () => {
   it("seals the deterministic genesis (hash pinned across every node)", async () => {
     const g = await storage.blockAt(0);
     expect(g?.hash).toBe(
-      "c56c7b1e6bd77fb1cce41b3cb76d05a54c3bfd719db2942066daddf3a52352c3",
+      "5a8cfffbd77d6bef7ba317c347ed9106e1af4613b483606ad183ac6e3c63a519",
     );
     expect(g?.timestamp).toBe(GENESIS_TIMESTAMP);
     const info = await getInfo();
     expect(info.height).toBe(0);
-    expect(info.chainId).toBe("bitweb-mainnet-1");
+    expect(info.chainId).toBe("web2mint-mainnet-1");
     expect(info.totalSupply).toBe(0);
   });
 
@@ -246,7 +248,7 @@ describe("browser chain node - full lifecycle", () => {
     const s = await getAddressOverview(w1.address);
     expect(s.nonce).toBe(1);
     // w1 mined block #3 itself, but the 1000-unit fee is BURNED in full -
-    // it never comes back to anyone: 3 miner shares - 10 BTWB sent - fee.
+    // it never comes back to anyone: 3 miner shares - 10 W2MT sent - fee.
     expect(s.balance).toBe(3 * MINER_SHARE - 10 * COIN - 1_000);
   }, 120_000);
 
@@ -437,7 +439,7 @@ async function craftSideBlockFull(
   const merkleRoot = merkleRootHex([cbTxid, ...popIds]);
   const ts = prev.timestamp + 1;
   const { nonce, hash } = powSearch(
-    `BTWB1|${height}|${prev.hash}|${merkleRoot}|${ts}|`,
+    `W2MT1|${height}|${prev.hash}|${merkleRoot}|${ts}|`,
     prev.target,
   );
   return {
@@ -472,8 +474,8 @@ async function craftSideBlockFull(
 
 describe("miner cooldown (consensus from block 2,000)", () => {
   it("no address may mine two consecutive blocks once active", () => {
-    const a = "btw1aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
-    const b = "btw1bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb";
+    const a = "w2m1aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+    const b = "w2m1bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb";
     expect(violatesMinerCooldown(1, a, a)).toBe(false); // bootstrap era
     expect(violatesMinerCooldown(1_999, a, a)).toBe(false); // below activation
     expect(violatesMinerCooldown(2_000, a, b)).toBe(false); // rotation is fine

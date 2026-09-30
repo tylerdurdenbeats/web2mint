@@ -291,7 +291,7 @@ describe("sybil handshake gate", () => {
       hello: {
         chainId: CHAIN_ID,
         p2pVersion: P2P_VERSION + 1, // a node from another software generation
-        agent: "bitweb-web-mainnet/99.0",
+        agent: "web2mint-web-mainnet/99.0",
         genesisHash,
         height: 0,
         tipHash: genesisHash,

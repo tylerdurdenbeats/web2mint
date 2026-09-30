@@ -97,7 +97,7 @@ function fakeChain(tip: number): WireBlock[] {
 
 function exportOf(blocks: WireBlock[], chainId: string = CHAIN_ID) {
   return {
-    format: "bitweb-chain-1",
+    format: "web2mint-chain-1",
     chainId,
     height: blocks[blocks.length - 1].height,
     exportedAt: Date.now(),
@@ -158,7 +158,7 @@ describe("deriveCheckpoints - refuses anything untrustworthy", () => {
   });
 
   it("rejects a different chain id", () => {
-    expect(() => deriveCheckpoints(exportOf(fakeChain(10), "bitweb-lookalike"))).toThrow(
+    expect(() => deriveCheckpoints(exportOf(fakeChain(10), "web2mint-lookalike"))).toThrow(
       /chain id mismatch/,
     );
   });
@@ -179,7 +179,7 @@ describe("deriveCheckpoints - refuses anything untrustworthy", () => {
   });
 
   it("rejects malformed exports at the sanitizer", () => {
-    expect(() => deriveCheckpoints({ format: "bitweb-chain-1" })).toThrow();
+    expect(() => deriveCheckpoints({ format: "web2mint-chain-1" })).toThrow();
     expect(() => deriveCheckpoints("junk")).toThrow();
   });
 });

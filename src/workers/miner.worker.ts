@@ -1,7 +1,7 @@
 /**
  * Web2Mint proof-of-work worker.
  * Iterates (timestamp, nonce) over the canonical header preimage
- *   BTWB1|{height}|{prevHash}|{merkleRoot}|{timestamp}|{nonce}
+ *   W2MT1|{height}|{prevHash}|{merkleRoot}|{timestamp}|{nonce}
  * and reports any double-SHA-256 digest below the target.
  * Runs fully client-side; the node independently re-verifies all work.
  *
@@ -82,7 +82,7 @@ function writeDigits(buf: Uint8Array, v: number): Uint8Array {
 
 async function mine(msg: MinerStartMsg): Promise<void> {
   const target = hexToBytes(msg.targetHex);
-  const headPrefix = `BTWB1|${msg.height}|${msg.prevHash}|${msg.merkleRoot}|`;
+  const headPrefix = `W2MT1|${msg.height}|${msg.prevHash}|${msg.merkleRoot}|`;
   const digitBuf = new Uint8Array(16);
   let nonce = msg.offset;
   let hashes = 0;

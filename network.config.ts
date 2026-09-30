@@ -60,9 +60,10 @@ export const SIGNALING_HOSTS: readonly SignalingHost[] = [
  *  `${LOBBY_PREFIX}-slot-N` and probes the rest to find peers.
  *  NOTE: the prefix is a NETWORK-RENDEZVOUS identifier frozen alongside the
  *  chain id - renaming it would split the live mesh into two partitioned
- *  networks (old and new builds would never meet). It is a wire value, not
- *  branding, and never appears in the UI. */
-export const LOBBY_PREFIX = "btwb-mainnet1";
+ *  networks. It was renamed with the 2026-09-30 re-genesis, whose new chain
+ *  id already partitions old and new builds by design. It is a wire value,
+ *  not branding, and never appears in the UI. */
+export const LOBBY_PREFIX = "w2mt-mainnet1";
 export const LOBBY_SLOTS = 64;
 
 /**
@@ -107,8 +108,8 @@ export const RELAY_URLS: readonly string[] = [] as const;
 /**
  * Public MQTT broker rooms (WebSocket URLs, path included) - the
  * ZERO-CONFIG common meeting point, ON BY DEFAULT. Every device on earth
- * subscribes to the same two topics (`btwb/<chain-id>/lobby` for presence,
- * `btwb/<chain-id>/in/<id>` for direct frames - wire values frozen with the
+ * subscribes to the same two topics (`w2mt/<chain-id>/lobby for presence,
+ * `w2mt/<chain-id>/in/<id>` for direct frames - wire values frozen with the
  * chain id, never shown in the UI) on these free public
  * brokers, so any two browsers that can reach the open internet at all
  * can see each other and sync one chain - even when carrier-grade NAT or

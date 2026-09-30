@@ -128,7 +128,7 @@ export default function Wallet() {
         <Panel title="Generate New Wallet">
           <p className="mb-3 text-xs text-neutral-400">
             One click mints a fresh private key and derives your{" "}
-            <span className="text-neutral-200">btw1...</span> address.
+            <span className="text-neutral-200">w2m1...</span> address.
           </p>
           <button
             className="term-btn term-btn-primary w-full py-3 text-base"
@@ -174,7 +174,7 @@ export default function Wallet() {
             <input
               ref={fileRef}
               type="file"
-              accept=".web2mint,.bitweb,.json,.txt"
+              accept=".web2mint,.json,.txt"
               className="hidden"
               onChange={(e) => {
                 const f = e.target.files?.[0];

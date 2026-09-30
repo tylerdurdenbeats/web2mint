@@ -30,23 +30,26 @@ async function until(fn: () => boolean | Promise<boolean>, timeoutMs: number): P
 }
 
 const BAKED: Record<string, { nonce: number; hash: string }> = {
-  "BTWB1|1|c56c7b1e6bd77fb1cce41b3cb76d05a54c3bfd719db2942066daddf3a52352c3|d62b9190107cb799394ff51e25c12ff58a23fa360f6b632805bd0f4268d6ecc8|1787443201|": { nonce: 175577, hash: "000000f11f737b8028d03070c7decc69e1cf199d3c532ea6cf27895396333a9c" },
-  "BTWB1|2|000000f11f737b8028d03070c7decc69e1cf199d3c532ea6cf27895396333a9c|6e8f54e3f76d982430a7f563a478e595bac666c4a53c1996edace4bfe501dd8b|1787443202|": { nonce: 6841841, hash: "000002ef2b549fe8bf01fb1aec1d706df0c26bb177afdde1b4ddf7eba5913157" },
-  "BTWB1|2|000000f11f737b8028d03070c7decc69e1cf199d3c532ea6cf27895396333a9c|e77599e7f9dbb191ff935eaa383ebb388616bf785ce87173a73ed59bcf41ba27|1787443202|": { nonce: 8699338, hash: "0000018c8f7cb7fd26d55c2201def5173ef6bbc90a1518e090d25a126609de77" },
+  "W2MT1|1|5a8cfffbd77d6bef7ba317c347ed9106e1af4613b483606ad183ac6e3c63a519|4139b2dfaed95e8d7068352502b63ff1d018df12416346dc49143d69aa359303|1790780268|": { nonce: 1683121, hash: "000000868995536cb5aa4ace595ccea56583670640c5b327e508cee5db8d7796" },
+  "W2MT1|1|5a8cfffbd77d6bef7ba317c347ed9106e1af4613b483606ad183ac6e3c63a519|3a6149de3c21abdda3db6ce78f0f360dac8012dbe4720d6428786a5d936a7a95|1790726401|": { nonce: 691486, hash: "0000012ad2fed0ac1a5e90a04e1cb041e276e1f386e61a3fd8a0dc7f07de9583" },
+  "W2MT1|2|0000012ad2fed0ac1a5e90a04e1cb041e276e1f386e61a3fd8a0dc7f07de9583|f742c8aa8f07b3a9412178eb9fcde7ad99316fd040c32953ec007b174f54c8bc|1790726402|": { nonce: 10832439, hash: "000002b3d9eb9c6d547f49fa357c1e9910121dfc7981a0b54766228990cd1169" },
+  "W2MT1|3|000002b3d9eb9c6d547f49fa357c1e9910121dfc7981a0b54766228990cd1169|361c66055732b1b1c5e00c4131a5cc1dce09d4912ea34fa9710f46fcd2cc2d4b|1790726403|": { nonce: 628769, hash: "000000d74fc6d700db2aa7c5ebd4becfee5d8edf72e1a511866d1f1c3d776cfc" },
+  "W2MT1|4|000000d74fc6d700db2aa7c5ebd4becfee5d8edf72e1a511866d1f1c3d776cfc|2d9b27e28a202e0c39782f75d721506c75f7a37dd8460b48a94f26a29bc4b8ed|1790726404|": { nonce: 3252049, hash: "000000d46378a0048003e6f5b4bef16448dd6a20cbcc77655239446fde0707ad" },
+  "W2MT1|5|000000d46378a0048003e6f5b4bef16448dd6a20cbcc77655239446fde0707ad|2a7552bbd47b62998b2074c8f9e221761aff0499abc2fc93ce7964997db4a0d5|1790726405|": { nonce: 226890, hash: "0000008886ebca0c07d061a49a6f65aa177e61450a1a601b0a7de88e1c30f55a" },
+  "W2MT1|6|0000008886ebca0c07d061a49a6f65aa177e61450a1a601b0a7de88e1c30f55a|53aa4e21276b6b4dee10ccf9a795ca10d1f1719c3d0b49ebb964ed9ee495e305|1790726406|": { nonce: 2577182, hash: "0000010a24b0e9685c0fc90087a68f230de54da33548ede2c10adbd8acfc469c" },
+  "W2MT1|1|5a8cfffbd77d6bef7ba317c347ed9106e1af4613b483606ad183ac6e3c63a519|f72870b67951742ef177fff6205a59a4c9b93cf714c1c27ae3bc769606db18dc|1790726401|": { nonce: 10944280, hash: "000000a5a3de17724f73bad848a9e2e1588c12b8c1e62f7fab526c6865277910" },
+  "W2MT1|2|000000a5a3de17724f73bad848a9e2e1588c12b8c1e62f7fab526c6865277910|a7e1dd2ffdc4eb10d6e7489ac9543cf90da11dd65197888fcaed02f492396d58|1790726402|": { nonce: 2054119, hash: "000003493f8d695b6f8266664956bff1f1f64a133db40716ccfb5d67378d4e8d" },
+  "W2MT1|2|000000a5a3de17724f73bad848a9e2e1588c12b8c1e62f7fab526c6865277910|3a89e8d011489d4d9b5ba885e3311a72134ec02ceae8391230be113d108e1ed3|1790726402|": { nonce: 4696894, hash: "0000008a9ebe6418645ebed6e6e2118e2d084181ef264c1d975d7a092872fbf4" },
+  "W2MT1|1|5a8cfffbd77d6bef7ba317c347ed9106e1af4613b483606ad183ac6e3c63a519|4139b2dfaed95e8d7068352502b63ff1d018df12416346dc49143d69aa359303|1790776434|": { nonce: 4832225, hash: "000001c2975a638220ec9e198888b7aa72e2aa871be0787e85c6b7cfb2c62178" },
+  "W2MT1|2|000000a5a3de17724f73bad848a9e2e1588c12b8c1e62f7fab526c6865277910|d339dc71149d0905e326e3025962fb03c75998337e98b606736a1875365822c7|1790726402|": { nonce: 663132, hash: "000003f2a94728e05bb43dbc4a7f79204a49163b88c6da5f1dea802ff95c2717" },
+  "W2MT1|3|0000008a9ebe6418645ebed6e6e2118e2d084181ef264c1d975d7a092872fbf4|b306d79aa1cad36f26cb906563f71acd4c3f49c291bfa951008bde13529d35d9|1790726403|": { nonce: 4438951, hash: "000002243a8692b6fe826e97559d6a4352df5a62856377263e98f51995b43ce3" },
+  "W2MT1|4|000002243a8692b6fe826e97559d6a4352df5a62856377263e98f51995b43ce3|83c02178da8c69e355edfbf88d1fc5fd03ed665202e5777665bdcb9409222dee|1790726404|": { nonce: 16988104, hash: "000001da27e07dde2bd0cbea196ff41e25f2fe2fa87c1204c56b41bc9cdf04c4" },
   // block #1 paying w1 - identical preimage to chain.test.ts (same miner, same parent)
   // block #2 paying w2, carrying the gossiped transfer - deterministic txid
   // (fixed keys, RFC-6979) => deterministic merkle, so this is stable
   // block #2 paying w1, coinbase only (the longest-chain regression below)
   // the deep-fork convergence test: chain A = w1 solo blocks #3-#4 on top of
   // the two cached w1 blocks; chain B = w2 solo blocks #1-#6 from genesis
-  "BTWB1|3|0000018c8f7cb7fd26d55c2201def5173ef6bbc90a1518e090d25a126609de77|310b1cbfa1b4759aa9d83cdae0aebfc002c52a1893cbbf7fd58ccb5184ca7d52|1787443203|": { nonce: 4550900, hash: "0000019c681bbcc35fa1ae47a1915afa8cbe42604cc0d35bdbecbb5d5003d4a6" },
-  "BTWB1|4|0000019c681bbcc35fa1ae47a1915afa8cbe42604cc0d35bdbecbb5d5003d4a6|762ff701143fc93acd1a0ccbb1043b43fde5191f659d4a69132e7281608a33e0|1787443204|": { nonce: 4021346, hash: "000001d55827e27b8df5e9938bb0667c4d298d07083ee7c18f139579c8898652" },
-  "BTWB1|1|c56c7b1e6bd77fb1cce41b3cb76d05a54c3bfd719db2942066daddf3a52352c3|61e058dc8dec4aa8f0b684827bd45414b1748b3e8f3a0f358ba8ac9016d201fb|1787443201|": { nonce: 4284016, hash: "00000045d6b8b5ed60f212cc69dbc19e50f74f13c619b69e1e97d005c94e195a" },
-  "BTWB1|2|00000045d6b8b5ed60f212cc69dbc19e50f74f13c619b69e1e97d005c94e195a|1a2510d09c5e4c75eb297132a9bb2f3cae562712a788c7b9d18540b6b50b2b0a|1787443202|": { nonce: 5250662, hash: "000000f002009d34e5027accf7e918a0094552aa094ce2781cf32d0043c4727c" },
-  "BTWB1|3|000000f002009d34e5027accf7e918a0094552aa094ce2781cf32d0043c4727c|bdc77bc0d41dd9ad7af49017e3dd9b86b5cfa1e83bb6567a9ccf87a737541a6d|1787443203|": { nonce: 4686527, hash: "0000021d0513855f6babf4add806c96b6ef344f82ec7f970da06d0623b39fde4" },
-  "BTWB1|4|0000021d0513855f6babf4add806c96b6ef344f82ec7f970da06d0623b39fde4|e0569768c1c5cb4c8b9d501da2cc65f920673d82c5bcd0ae3ef8072ff935fee8|1787443204|": { nonce: 4429040, hash: "000003d1d221a4cf7bf4293e1dcb6616f5e1f04be2cb8fd5d9de4a1217f07331" },
-  "BTWB1|5|000003d1d221a4cf7bf4293e1dcb6616f5e1f04be2cb8fd5d9de4a1217f07331|fa56d777a916401d8d1f326fbc505c398514f4feafdd92ac235626554432b443|1787443205|": { nonce: 1500807, hash: "000001728809202e4e43b2c8b9d2b7282689c01a270438fe7ce202e13a839df3" },
-  "BTWB1|6|000001728809202e4e43b2c8b9d2b7282689c01a270438fe7ce202e13a839df3|d0d06cec0b00d4d8324a43c58440cae4c7e3641469ffa4d1dda2e5c1658d3e09|1787443206|": { nonce: 11870100, hash: "000000b44ad3eef01c2e028dc5a97d6cb194bc5dda19d87aca6bdb48a1b7447e" },
 };
 
 function powSearch(prefixAscii: string, target: string): { nonce: number; hash: string } {
@@ -91,7 +94,7 @@ async function mineWith(node: Booted, miner: string): Promise<{ height: number; 
   const tpl = await node.template(miner);
   const ts = tpl.minTimestamp;
   const { nonce } = powSearch(
-    `BTWB1|${tpl.height}|${tpl.prevHash}|${tpl.merkleRoot}|${ts}|`,
+    `W2MT1|${tpl.height}|${tpl.prevHash}|${tpl.merkleRoot}|${ts}|`,
     tpl.target,
   );
   return node.submitBlock(tpl.templateId, ts, nonce);
@@ -106,7 +109,7 @@ async function mineWithRealtime(node: Booted, miner: string): Promise<{ height: 
   const tpl = await node.template(miner);
   const ts = Math.max(tpl.minTimestamp, Math.floor(Date.now() / 1000));
   const { nonce } = powSearch(
-    `BTWB1|${tpl.height}|${tpl.prevHash}|${tpl.merkleRoot}|${ts}|`,
+    `W2MT1|${tpl.height}|${tpl.prevHash}|${tpl.merkleRoot}|${ts}|`,
     tpl.target,
   );
   return node.submitBlock(tpl.templateId, ts, nonce);
@@ -133,12 +136,12 @@ describe("two tabs, one chain - BroadcastChannel P2P simulation", () => {
     const seen = nodeA.peers();
     expect(seen.length).toBe(1);
     expect(seen[0].transport).toBe("broadcast");
-    expect(seen[0].agent).toContain("bitweb-web-mainnet");
+    expect(seen[0].agent).toContain("web2mint-web-mainnet");
 
     // identical DNA on both tabs
     const [ia, ib] = await Promise.all([nodeA.info(), nodeB.info()]);
     expect(ia.genesisHash).toBe(ib.genesisHash);
-    expect(ia.chainId).toBe("bitweb-mainnet-1");
+    expect(ia.chainId).toBe("web2mint-mainnet-1");
   }, 30_000);
 
   it("a block mined in tab A lands in tab B by gossip", async () => {
@@ -242,7 +245,7 @@ describe("two tabs, one chain - BroadcastChannel P2P simulation", () => {
     vi.resetModules();
     const clientC = await import("./client");
     const { BroadcastTransport: BTC } = await import("./transport");
-    const tc = new BTC("tab-c", "btwb-test-isolated-hello");
+    const tc = new BTC("tab-c", "w2mt-test-isolated-hello");
     let hellosFromC = 0;
     const origSend = tc.send.bind(tc);
     tc.send = (id, data) => {
@@ -261,7 +264,7 @@ describe("two tabs, one chain - BroadcastChannel P2P simulation", () => {
     const { BroadcastTransport: BTD } = await import("./transport");
     const d = await clientD.bootNode({
       storage: new MemoryStorage(),
-      transports: [new BTD("tab-d", "btwb-test-isolated-hello")],
+      transports: [new BTD("tab-d", "w2mt-test-isolated-hello")],
       webRtc: false,
     });
 
@@ -283,7 +286,7 @@ describe("two tabs, one chain - BroadcastChannel P2P simulation", () => {
     const { BroadcastTransport: BTG } = await import("./transport");
     const g = await clientG.bootNode({
       storage: new MemoryStorage(),
-      transports: [new BTG("tab-g", "btwb-test-longest")],
+      transports: [new BTG("tab-g", "w2mt-test-longest")],
       webRtc: false,
     });
     const gTip = await mineWith(g, w1.address).then(() => mineWith(g, w1.address));
@@ -294,7 +297,7 @@ describe("two tabs, one chain - BroadcastChannel P2P simulation", () => {
     const { BroadcastTransport: BTH } = await import("./transport");
     const h = await clientH.bootNode({
       storage: new MemoryStorage(),
-      transports: [new BTH("tab-h", "btwb-test-longest")],
+      transports: [new BTH("tab-h", "w2mt-test-longest")],
       webRtc: false,
     });
 
@@ -316,7 +319,7 @@ describe("two tabs, one chain - BroadcastChannel P2P simulation", () => {
     const { BroadcastTransport: BTE } = await import("./transport");
     const e = await clientE.bootNode({
       storage: new MemoryStorage(),
-      transports: [new BTE("tab-e", "btwb-test-pop")],
+      transports: [new BTE("tab-e", "w2mt-test-pop")],
       webRtc: false,
     });
     await new Promise((r) => setTimeout(r, 150));
@@ -327,7 +330,7 @@ describe("two tabs, one chain - BroadcastChannel P2P simulation", () => {
     const { BroadcastTransport: BTF } = await import("./transport");
     const f = await clientF.bootNode({
       storage: new MemoryStorage(),
-      transports: [new BTF("tab-f", "btwb-test-pop")],
+      transports: [new BTF("tab-f", "w2mt-test-pop")],
       webRtc: false,
     });
     await until(() => e.engine.peerCount() === 1 && f.engine.peerCount() === 1, 15_000);
@@ -357,9 +360,9 @@ describe("two tabs, one chain - BroadcastChannel P2P simulation", () => {
       f.address(wF.address),
       f.info(),
     ]);
-    expect(minerView.balance).toBe(split.miner); // 350 BTWB - the 70% share
-    expect(popView.balance).toBe(split.perPeer); // 100 BTWB - attested, verified
-    // the burn (50 BTWB here) is never minted; no fees in this block
+    expect(minerView.balance).toBe(split.miner); // 350 W2MT - the 70% share
+    expect(popView.balance).toBe(split.perPeer); // 100 W2MT - attested, verified
+    // the burn (50 W2MT here) is never minted; no fees in this block
     expect(infoF.totalSupply).toBe(split.miner + split.perPeer);
 
     e.stop();
@@ -372,7 +375,7 @@ describe("chain update gate - live two-tab sync", () => {
     // A exists first and already HAS blocks when B boots: B's hello compare
     // (peer tip > local tip) triggers the catch-up sync path. A private
     // channel keeps this pair deaf to the other describes' long-lived nodes.
-    const a = await freshNode("gate-a", "bitweb-test-gate");
+    const a = await freshNode("gate-a", "w2mt-test-gate");
     await mineWith(a, w1.address);
     await mineWith(a, w1.address);
     const aTip = (await a.info()).tipHash;
@@ -389,7 +392,7 @@ describe("chain update gate - live two-tab sync", () => {
     const { BroadcastTransport: BTGateB } = await import("./transport");
     const b = await clientB.bootNode({
       storage: new MemoryStorage(),
-      transports: [new BTGateB("gate-b", "bitweb-test-gate")],
+      transports: [new BTGateB("gate-b", "w2mt-test-gate")],
       webRtc: false,
     });
 
@@ -422,7 +425,7 @@ describe("mempool re-gossip - a tx made while alone still confirms", () => {
     // re-gossip, that tx could only ever confirm if the sender mined it
     // themselves. A private channel keeps this pair deaf to the other
     // describes' long-lived nodes.
-    const solo = await freshNode("solo", "bitweb-test-regossip");
+    const solo = await freshNode("solo", "w2mt-test-regossip");
     await mineWith(solo, w1.address);
     const unsigned = { from: w1.address, to: w2.address, amount: 5 * COIN, fee: 1_000, nonce: 0 };
     const signature = signTransfer(w1.privHex, unsigned);
@@ -430,7 +433,7 @@ describe("mempool re-gossip - a tx made while alone still confirms", () => {
     expect((await solo.mempool(10)).length).toBe(1);
 
     // the peer joins AFTER the fact - nobody re-sends anything
-    const late = await freshNode("late", "bitweb-test-regossip");
+    const late = await freshNode("late", "w2mt-test-regossip");
     await until(() => (solo.peers().length === 1 && late.peers().length === 1), 15_000);
 
     // on-verification + post-sync mempool handoff delivers the pending tx
@@ -462,7 +465,7 @@ describe("deep fork beyond the walk-back budget - full resync convergence", () =
     // per-device supply drift: same-looking heights, different chains.
     // Before the fix, A would strike the honest longer peer and both would
     // stay forked forever.
-    const CH = "bitweb-test-deepfork";
+    const CH = "w2mt-test-deepfork";
     const aloneA = await freshNode("df-a0", `${CH}-void-a`, { maxReorgDepth: 2 });
     for (let i = 0; i < 4; i++) await mineWith(aloneA, w1.address);
     const aForkTip = (await aloneA.info()).tipHash;

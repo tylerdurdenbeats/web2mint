@@ -69,7 +69,7 @@ describe("hash parity (node crypto vs noble - browser validation is noble)", () 
         timestamp: 1_785_800_000,
         nonce: 42,
       }),
-      "BTWBTX1|btw1x|btw1y|100|1000|0",
+      "W2MTTX1|w2m1x|w2m1y|100|1000|0",
       "",
       "satoshi",
     ]) {
@@ -92,25 +92,25 @@ describe("serializations are exact and stable", () => {
         timestamp: 99,
         nonce: 5,
       }),
-    ).toBe("BTWB1|7|p|m|99|5");
+    ).toBe("W2MT1|7|p|m|99|5");
   });
   it("tx signing preimage format", () => {
     expect(serializeTxForSig({ from: "a", to: "b", amount: 1, fee: 2, nonce: 3 })).toBe(
-      "BTWBTX1|a|b|1|2|3",
+      "W2MTTX1|a|b|1|2|3",
     );
   });
   it("v2 tx signing preimage is chain-bound (replay protection)", () => {
     expect(serializeTxForSigV2({ from: "a", to: "b", amount: 1, fee: 2, nonce: 3 })).toBe(
-      `BTWBTX2|${CHAIN_ID}|a|b|1|2|3`,
+      `W2MTTX2|${CHAIN_ID}|a|b|1|2|3`,
     );
-    expect(CHAIN_ID).toBe("bitweb-mainnet-1");
+    expect(CHAIN_ID).toBe("web2mint-mainnet-1");
   });
   it("dual-accept: v2 is canonical, v1 stays valid, forgeries fail", () => {
     const signWith = (sk: Uint8Array, msg: string) =>
       bytesToHex(secp256k1.sign(sha256(utf8ToBytes(msg)), sk));
     const priv = secp256k1.utils.randomSecretKey();
     const pubHex = bytesToHex(secp256k1.getPublicKey(priv, true));
-    const base = { from: "btw1a", to: "btw1b", amount: 5, fee: 1_000, nonce: 0 };
+    const base = { from: "w2m1a", to: "w2m1b", amount: 5, fee: 1_000, nonce: 0 };
 
     const v2Tx = { ...base, pubkey: pubHex, signature: signWith(priv, serializeTxForSigV2(base)) };
     expect(signatureVersionOf(v2Tx)).toBe(2);
@@ -139,7 +139,7 @@ describe("addresses", () => {
   it("build -> validate roundtrip; tampering fails", () => {
     const h160 = "0123456789abcdef0123456789abcdef01234567";
     const addr = buildAddress(h160, dsha256Hex);
-    expect(addr).toMatch(/^btw1[0-9a-f]{48}$/);
+    expect(addr).toMatch(/^w2m1[0-9a-f]{48}$/);
     expect(isValidAddress(addr, dsha256Hex)).toBe(true);
     const tampered = addr.slice(0, 10) + "f" + addr.slice(11);
     expect(isValidAddress(tampered, dsha256Hex)).toBe(false);
@@ -147,7 +147,7 @@ describe("addresses", () => {
   it("zero-hash genesis address is well-formed", () => {
     const zero = buildAddress("0".repeat(40), dsha256Hex);
     expect(isValidAddress(zero, dsha256Hex)).toBe(true);
-    expect(serializeCoinbase({ height: 0, to: zero, amount: 0 })).toContain("BTWBCB1|0|");
+    expect(serializeCoinbase({ height: 0, to: zero, amount: 0 })).toContain("W2MTCB1|0|");
   });
 });
 
@@ -201,13 +201,13 @@ describe("emission schedule", () => {
     // Any accidental change to a monetary constant breaks this table.
     const vectors: Array<[number, number]> = [
       [0, 0], // genesis mints nothing
-      [999, 50_000_000_000], // last bootstrap block: 500 BTWB
-      [1_000, 5_000_000_000], // first decay block: exactly 50 BTWB
-      [10_000, 4_779_987_409], // ~47.80 BTWB
-      [50_000, 3_913_522_691], // ~39.14 BTWB
-      [100_000, 3_047_854_536], // ~30.48 BTWB
-      [500_000, 412_482_256], // ~4.12 BTWB
-      [1_000_000, 33_858_605], // ~0.34 BTWB
+      [999, 50_000_000_000], // last bootstrap block: 500 W2MT
+      [1_000, 5_000_000_000], // first decay block: exactly 50 W2MT
+      [10_000, 4_779_987_409], // ~47.80 W2MT
+      [50_000, 3_913_522_691], // ~39.14 W2MT
+      [100_000, 3_047_854_536], // ~30.48 W2MT
+      [500_000, 412_482_256], // ~4.12 W2MT
+      [1_000_000, 33_858_605], // ~0.34 W2MT
       [5_000_000, 0], // integer base units underflow: emission ENDS here
     ];
     for (const [height, reward] of vectors) expect(getBlockReward(height)).toBe(reward);
@@ -259,16 +259,16 @@ describe("emission schedule", () => {
     );
   });
   it("PoP transfer serialization is canonical and stable", () => {
-    expect(serializePopTransfer({ height: 5, index: 2, to: "btw1abc", amount: 123 })).toBe(
-      "BTWBPOP1|5|2|btw1abc|123",
+    expect(serializePopTransfer({ height: 5, index: 2, to: "w2m1abc", amount: 123 })).toBe(
+      "W2MTPOP1|5|2|w2m1abc|123",
     );
   });
   it("PoP attestation constants and serialization are canonical and stable", () => {
     expect(POP_ATTEST_MAX_AGE_S).toBe(300);
     expect(POP_ATTEST_RESEND_MS).toBe(60_000);
     expect(
-      serializePopAttestation({ minerPeerId: "node-x", address: "btw1abc", timestamp: 42 }),
-    ).toBe("BTWBPOP_ATTEST|node-x|btw1abc|42");
+      serializePopAttestation({ minerPeerId: "node-x", address: "w2m1abc", timestamp: 42 }),
+    ).toBe("W2MTPOP_ATTEST|node-x|w2m1abc|42");
   });
   it("PoP attestation sign/verify roundtrip - bound to ONE miner id", () => {
     const w = walletFromPrivHex("ab".repeat(32))!;
@@ -360,9 +360,9 @@ describe("genesis is deterministic across all nodes", () => {
         nonce: 0,
       }),
     );
-    expect(hash).toBe("c56c7b1e6bd77fb1cce41b3cb76d05a54c3bfd719db2942066daddf3a52352c3");
-    expect(cbTxid).toBe("634502e170d08790b161832df5784e995cb28c7098a6dec9b3da50d616f60a2b");
-    expect(GENESIS_TIMESTAMP).toBe(1_787_443_200); // 2026-08-23T00:00:00Z - mainnet birthday
+    expect(hash).toBe("5a8cfffbd77d6bef7ba317c347ed9106e1af4613b483606ad183ac6e3c63a519");
+    expect(cbTxid).toBe("e82f5eccde6600bbf9972e5a425a636a715ded7c320cf5d04507a82e60f084a5");
+    expect(GENESIS_TIMESTAMP).toBe(1_790_726_400); // 2026-09-30T00:00:00Z - mainnet birthday
   });
   it("carries the message, hidden in the coinbase like Satoshi's headline", () => {
     expect(GENESIS_MESSAGE).toContain("middle children of history");

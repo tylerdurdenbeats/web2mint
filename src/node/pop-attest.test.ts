@@ -16,7 +16,7 @@ import type { PopTransfer } from "./storage";
 const miner = walletFromPrivHex("0a".repeat(32))!;
 const peerA = walletFromPrivHex("0b".repeat(32))!;
 const peerB = walletFromPrivHex("0c".repeat(32))!;
-const MINER_PEER = "btwb-lobby-miner-1";
+const MINER_PEER = "w2mt-lobby-miner-1";
 const T = 1_700_000_000; // fixed anchor - freshness is measured against it
 
 function attest(
@@ -73,7 +73,7 @@ describe("PoP attestation attack matrix", () => {
   });
 
   it("ATTACK: attestation signed for a DIFFERENT miner is replayed here", () => {
-    const forOther = attest(peerA, "btwb-lobby-someone-else");
+    const forOther = attest(peerA, "w2mt-lobby-someone-else");
     // the payout matches the address, but the signature binds another target
     expect(validatePoPAttestations(block([pay(forOther, 0)], [forOther]))).toBe(false);
   });

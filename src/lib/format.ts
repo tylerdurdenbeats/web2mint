@@ -78,7 +78,7 @@ export function fmtHashrate(hps: number | null | undefined): string {
   return `${v >= 100 ? v.toFixed(0) : v >= 10 ? v.toFixed(1) : v.toFixed(2)} ${units[i]}`;
 }
 
-/** btw1abcd...wxyz */
+/** w2m1abcd...wxyz */
 export function shortAddr(addr: string, head = 10, tail = 6): string {
   if (addr.length <= head + tail + 1) return addr;
   return `${addr.slice(0, head)}...${addr.slice(-tail)}`;

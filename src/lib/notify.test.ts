@@ -112,10 +112,10 @@ describe("notify()", () => {
     // tab B via the storage event; tab B's watcher then fires for the SAME
     // chain event - the content scan must drop the copy.
     const a = await boot();
-    a.mod.notify("transaction_received", "Received 50 W2MT from btw1abc.... Block #9");
+    a.mod.notify("transaction_received", "Received 50 W2MT from w2m1abc.... Block #9");
     const b = await boot(a.store); // second tab, same storage
     expect(
-      b.mod.notify("transaction_received", "Received 50 W2MT from btw1abc.... Block #9"),
+      b.mod.notify("transaction_received", "Received 50 W2MT from w2m1abc.... Block #9"),
     ).toBeNull();
     expect(b.mod.getNotifications()).toHaveLength(1);
   });
@@ -256,7 +256,7 @@ describe("payload hygiene", () => {
     for (const t of TYPES) {
       expect(mod.ICONS[t]).toMatch(/^[\x20-\x7e]+$/);
     }
-    const n = mod.notify("transaction_received", "Received 50 W2MT from btw1abc...")!;
+    const n = mod.notify("transaction_received", "Received 50 W2MT from w2m1abc...")!;
     expect(n.title).toMatch(/^[\x20-\x7e]+$/);
     expect(n.message).toMatch(/^[\x20-\x7e]+$/);
   });

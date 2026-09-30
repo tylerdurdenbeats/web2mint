@@ -20,12 +20,12 @@ const w1 = walletFromPrivHex("01".repeat(32))!;
 const w2 = walletFromPrivHex("02".repeat(32))!;
 
 const BAKED: Record<string, { nonce: number; hash: string }> = {
-  "BTWB1|1|c56c7b1e6bd77fb1cce41b3cb76d05a54c3bfd719db2942066daddf3a52352c3|61e058dc8dec4aa8f0b684827bd45414b1748b3e8f3a0f358ba8ac9016d201fb|1787443201|": { nonce: 4284016, hash: "00000045d6b8b5ed60f212cc69dbc19e50f74f13c619b69e1e97d005c94e195a" },
-  "BTWB1|1|c56c7b1e6bd77fb1cce41b3cb76d05a54c3bfd719db2942066daddf3a52352c3|d62b9190107cb799394ff51e25c12ff58a23fa360f6b632805bd0f4268d6ecc8|1787443201|": { nonce: 175577, hash: "000000f11f737b8028d03070c7decc69e1cf199d3c532ea6cf27895396333a9c" },
-  "BTWB1|2|000000f11f737b8028d03070c7decc69e1cf199d3c532ea6cf27895396333a9c|1a2510d09c5e4c75eb297132a9bb2f3cae562712a788c7b9d18540b6b50b2b0a|1787443202|": { nonce: 89223, hash: "0000039f388b8543a3da71ab6dea239ff29df0d71de19fb943de4fb72e885d07" },
-  "BTWB1|2|000000f11f737b8028d03070c7decc69e1cf199d3c532ea6cf27895396333a9c|e77599e7f9dbb191ff935eaa383ebb388616bf785ce87173a73ed59bcf41ba27|1787443202|": { nonce: 8699338, hash: "0000018c8f7cb7fd26d55c2201def5173ef6bbc90a1518e090d25a126609de77" },
-  "BTWB1|3|0000018c8f7cb7fd26d55c2201def5173ef6bbc90a1518e090d25a126609de77|310b1cbfa1b4759aa9d83cdae0aebfc002c52a1893cbbf7fd58ccb5184ca7d52|1787443203|": { nonce: 4550900, hash: "0000019c681bbcc35fa1ae47a1915afa8cbe42604cc0d35bdbecbb5d5003d4a6" },
-  "BTWB1|3|0000039f388b8543a3da71ab6dea239ff29df0d71de19fb943de4fb72e885d07|bdc77bc0d41dd9ad7af49017e3dd9b86b5cfa1e83bb6567a9ccf87a737541a6d|1787443203|": { nonce: 1193466, hash: "000001cd89969c8020fc0de45cc660299ea8c268dbcba60aff4237a668921e35" },
+  "W2MT1|1|5a8cfffbd77d6bef7ba317c347ed9106e1af4613b483606ad183ac6e3c63a519|f72870b67951742ef177fff6205a59a4c9b93cf714c1c27ae3bc769606db18dc|1790726401|": { nonce: 10944280, hash: "000000a5a3de17724f73bad848a9e2e1588c12b8c1e62f7fab526c6865277910" },
+  "W2MT1|2|000000a5a3de17724f73bad848a9e2e1588c12b8c1e62f7fab526c6865277910|3a89e8d011489d4d9b5ba885e3311a72134ec02ceae8391230be113d108e1ed3|1790726402|": { nonce: 4696894, hash: "0000008a9ebe6418645ebed6e6e2118e2d084181ef264c1d975d7a092872fbf4" },
+  "W2MT1|1|5a8cfffbd77d6bef7ba317c347ed9106e1af4613b483606ad183ac6e3c63a519|3a6149de3c21abdda3db6ce78f0f360dac8012dbe4720d6428786a5d936a7a95|1790726401|": { nonce: 691486, hash: "0000012ad2fed0ac1a5e90a04e1cb041e276e1f386e61a3fd8a0dc7f07de9583" },
+  "W2MT1|3|0000008a9ebe6418645ebed6e6e2118e2d084181ef264c1d975d7a092872fbf4|b306d79aa1cad36f26cb906563f71acd4c3f49c291bfa951008bde13529d35d9|1790726403|": { nonce: 4438951, hash: "000002243a8692b6fe826e97559d6a4352df5a62856377263e98f51995b43ce3" },
+  "W2MT1|2|000000a5a3de17724f73bad848a9e2e1588c12b8c1e62f7fab526c6865277910|f742c8aa8f07b3a9412178eb9fcde7ad99316fd040c32953ec007b174f54c8bc|1790726402|": { nonce: 246743, hash: "0000038edb4025e8a4ee304ae8de59178a9d09075c6947e516741872af792d5e" },
+  "W2MT1|3|0000038edb4025e8a4ee304ae8de59178a9d09075c6947e516741872af792d5e|361c66055732b1b1c5e00c4131a5cc1dce09d4912ea34fa9710f46fcd2cc2d4b|1790726403|": { nonce: 2636303, hash: "0000012888c67cb937f045f44a3715d8847a2bfdc1909412d670db4085b7efd3" },
   // blocks 2-3 match the coinbase-only narrative of chain.test.ts - reuse
   // block #1 paying w2 (the conflicting-chain test)
 };
@@ -58,7 +58,7 @@ async function mineOne(chain: ChainModule, miner: string): Promise<{ height: num
   const tpl = await chain.buildTemplate(miner);
   const ts = tpl.minTimestamp;
   const { nonce } = powSearch(
-    `BTWB1|${tpl.height}|${tpl.prevHash}|${tpl.merkleRoot}|${ts}|`,
+    `W2MT1|${tpl.height}|${tpl.prevHash}|${tpl.merkleRoot}|${ts}|`,
     tpl.target,
   );
   const r = await chain.submitBlock(tpl.templateId, ts, nonce);
@@ -94,23 +94,32 @@ describe("chain export / import", () => {
     expect(di.totalSupply).toBe((await src.getInfo()).totalSupply);
   }, 240_000);
 
-  it("still imports pre-rebrand export files (old backups never die)", async () => {
+  it("refuses export files of the retired pre-re-genesis chain", async () => {
+    // Regression pin: export files written by the retired network carry the
+    // CURRENT format magic but the retired chain id and the retired genesis.
+    // Such a file is a foreign chain - it must be refused, never imported.
+    // (The literal retired identifiers appear here the same way they appear
+    // in the wipe machinery: naming the foreign network so it stays OUT.)
     const src = await freshChain();
-    const tip = await mineOne(src, w1.address);
+    await mineOne(src, w1.address);
     const legacy = asFile(await src.exportChain()) as Record<string, unknown>;
-    legacy.format = "bitweb-chain-1"; // a file written by a pre-rebrand build
+    legacy.chainId = "bitweb-mainnet-1"; // the retired chain id, verbatim
+    legacy.blocks = (legacy.blocks as Array<Record<string, unknown>>).map((b, i) =>
+      i === 0
+        ? { ...b, hash: "c56c7b1e6bd77fb1cce41b3cb76d05a54c3bfd719db2942066daddf3a52352c3" } // retired genesis
+        : b,
+    );
 
     const dst = await freshChain();
-    const res = await dst.importChain(legacy);
-    expect(res.height).toBe(1);
-    expect((await dst.getInfo()).tipHash).toBe(tip.hash);
+    await expect(dst.importChain(legacy)).rejects.toThrow(/chain id mismatch/);
+    expect((await dst.getInfo()).height).toBe(0); // nothing applied
   }, 240_000);
 
   it("refuses a foreign network's export", async () => {
     const src = await freshChain();
     const data = await src.exportChain();
     const dst = await freshChain();
-    const foreign = { ...(asFile(data) as Record<string, unknown>), chainId: "bitweb-mainnet-9" };
+    const foreign = { ...(asFile(data) as Record<string, unknown>), chainId: "web2mint-mainnet-9" };
     await expect(dst.importChain(foreign)).rejects.toThrow(
       /chain id mismatch/,
     );
@@ -167,7 +176,7 @@ describe("chain export / import", () => {
     await expect(dst.importChain(wrongGenesis)).rejects.toThrow(/genesis/);
 
     await expect(dst.importChain(null)).rejects.toThrow(/not a chain export file/);
-    await expect(dst.importChain({ format: "bitweb-chain-1" })).rejects.toThrow(
+    await expect(dst.importChain({ format: "web2mint-chain-9" })).rejects.toThrow(
       /not a chain export file/,
     );
   }, 240_000);

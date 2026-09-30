@@ -1000,7 +1000,7 @@ async function applyBlockInTx(tx: ChainStorageTx, p: ApplyParams): Promise<void>
   });
 
   // 4b. PoP credits - one confirmed row per peer-pool share, committed to
-  // the merkle root by its BTWBPOP1 id. These are credits, not transfers:
+  // the merkle root by its W2MTPOP1 id. These are credits, not transfers:
   // no sender, no nonce, no signature.
   for (let i = 0; i < p.popTransfers.length; i++) {
     const pt = p.popTransfers[i];
@@ -1773,8 +1773,6 @@ export async function getWireBlock(height: number): Promise<WireBlock | null> {
 
 /** Current chain-export file magic, emitted by every export. */
 export const CHAIN_EXPORT_FORMAT = "web2mint-chain-1";
-/** Pre-rebrand export files stay importable forever (old backups never die). */
-const LEGACY_CHAIN_EXPORT_FORMATS = ["bitweb-chain-1"] as const;
 
 export interface ChainExport {
   format: typeof CHAIN_EXPORT_FORMAT;
@@ -1925,10 +1923,7 @@ export function sanitizeChainExport(data: unknown): ChainExport {
     bad("not a chain export file");
   }
   const o = data as Record<string, unknown>;
-  if (
-    o.format !== CHAIN_EXPORT_FORMAT &&
-    !(LEGACY_CHAIN_EXPORT_FORMATS as readonly unknown[]).includes(o.format)
-  ) {
+  if (o.format !== CHAIN_EXPORT_FORMAT) {
     bad("not a chain export file");
   }
   if (

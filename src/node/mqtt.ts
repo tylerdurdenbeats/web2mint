@@ -473,7 +473,7 @@ export class MiniMqttClient {
 // ===========================================================================
 
 /** Topics are scoped by chain id, so two networks can never cross-talk. */
-const TOPIC_ROOT = `btwb/${CHAIN_ID}`;
+const TOPIC_ROOT = `w2mt/${CHAIN_ID}`;
 const LOBBY_TOPIC = `${TOPIC_ROOT}/lobby`;
 const INBOX_PREFIX = `${TOPIC_ROOT}/in/`;
 

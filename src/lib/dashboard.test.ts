@@ -12,8 +12,8 @@ import type { BlockRow, TxRow } from "@/node/storage";
 function tx(partial: Partial<TxRow> & { txid: string; blockHeight: number }): TxRow {
   return {
     type: "transfer",
-    fromAddress: "btw1aaa",
-    toAddress: "btw1bbb",
+    fromAddress: "w2m1aaa",
+    toAddress: "w2m1bbb",
     amount: 100,
     fee: 1,
     nonce: 0,
@@ -29,7 +29,7 @@ function peer(partial: Partial<PeerView> & { id: string }): PeerView {
   return {
     transport: "mqtt",
     height: 10,
-    agent: "bitweb/1",
+    agent: "web2mint/1",
     strikes: 0,
     connectedAt: 1_000,
     lastSeen: 5_000,

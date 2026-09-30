@@ -1,9 +1,9 @@
 /**
  * ===========================================================================
- *  BITWEB (BTWB) - PROTOCOL SPECIFICATION v1
+ *  WEB2MINT (W2MT) - PROTOCOL SPECIFICATION v1
  * ===========================================================================
  *
- *  This file is the single source of truth for the BitWeb consensus rules.
+ *  This file is the single source of truth for the Web2Mint consensus rules.
  *  It is shared verbatim between the reference node (api/) and every browser
  *  client (src/). Changing any constant or serialization here after genesis
  *  constitutes a hard fork.
@@ -21,15 +21,15 @@
 
 // -- identity ----------------------------------------------------------------
 // This build is the MAINNET. The chain id is baked into every v2 signature
-// (BTWBTX2|bitweb-mainnet-1|...), so coins and signatures can never cross
+// (W2MTTX2|web2mint-mainnet-1|...), so coins and signatures can never cross
 // over to a testnet or a lookalike fork.
-export const CHAIN_ID = "bitweb-mainnet-1";
+export const CHAIN_ID = "web2mint-mainnet-1";
 export const PROTOCOL_VERSION = 1;
-export const TICKER = "BTWB";
-export const ADDRESS_PREFIX = "btw1";
+export const TICKER = "W2MT";
+export const ADDRESS_PREFIX = "w2m1";
 
 // -- monetary policy ---------------------------------------------------------
-export const COIN = 100_000_000; // base units ("webs") per 1 BTWB
+export const COIN = 100_000_000; // base units ("webs") per 1 W2MT
 // SOFT CAP: the emission curve approaches this asymptotically - it is a
 // reference point, NOT a hard limit. Nothing in consensus enforces it.
 export const SOFT_CAP_SUPPLY = 42_000_000 * COIN; // base units
@@ -53,7 +53,7 @@ export const MAX_POP_RECIPIENTS = 32; // one per connected peer, at most
 
 /**
  * A peer-signed Proof-of-Participation attestation: the peer's wallet signs
- * "BTWBPOP_ATTEST|{miner_peer_id}|{address}|{timestamp}", cryptographically
+ * "W2MTPOP_ATTEST|{miner_peer_id}|{address}|{timestamp}", cryptographically
  * binding (this miner, this payout address, this moment) together. Blocks
  * carry them so EVERY node can verify the PoP peer list independently.
  */
@@ -112,7 +112,7 @@ export const INITIAL_TARGET_HEX = "000003" + "f".repeat(58);
 export const HASHES_AT_DIFFICULTY_1 = 2 ** 22;
 
 // -- transactions ------------------------------------------------------------
-export const MIN_TX_FEE = 1_000; // base units (0.00001 BTWB) minimum relay fee
+export const MIN_TX_FEE = 1_000; // base units (0.00001 W2MT) minimum relay fee
 
 // -- legal ---------------------------------------------------------------------
 // The canonical disclaimer, rendered in the UI (Terminal page) and mirrored in
@@ -120,7 +120,7 @@ export const MIN_TX_FEE = 1_000; // base units (0.00001 BTWB) minimum relay fee
 // this - just code.
 export const LEGAL_DISCLAIMER =
   "Experimental open-source software (MIT). Not financial advice. " +
-  "BTWB has no promised value - coins are worth only what a free market " +
+  "W2MT has no promised value - coins are worth only what a free market " +
   "decides, which may be zero. Use at your own risk.";
 
 // -- genesis -----------------------------------------------------------------
@@ -133,9 +133,9 @@ export const GENESIS_MESSAGE =
 export const GENESIS_PREV_HASH = "0".repeat(64);
 // Genesis MUST be byte-identical on every node, so its timestamp is a
 // hardcoded constant (like Bitcoin's 1231006505), never wall-clock time.
-// 1787443200 = 2026-08-23T00:00:00Z - the mainnet's birthday. The manifesto
+// 1790726400 = 2026-09-30T00:00:00Z - the mainnet's birthday. The manifesto
 // message above survives from the testnet era; the clock restarts here.
-export const GENESIS_TIMESTAMP = 1_787_443_200;
+export const GENESIS_TIMESTAMP = 1_790_726_400;
 
 // -- canonical serializations ------------------------------------------------
 // These MUST stay byte-identical across every implementation. A block or
@@ -149,7 +149,7 @@ export function serializeHeader(h: {
   timestamp: number;
   nonce: number;
 }): string {
-  return `BTWB1|${h.height}|${h.prevHash}|${h.merkleRoot}|${h.timestamp}|${h.nonce}`;
+  return `W2MT1|${h.height}|${h.prevHash}|${h.merkleRoot}|${h.timestamp}|${h.nonce}`;
 }
 
 /** The exact message a wallet signs (single SHA-256, then ECDSA/secp256k1). */
@@ -160,7 +160,7 @@ export function serializeTxForSig(t: {
   fee: number;
   nonce: number;
 }): string {
-  return `BTWBTX1|${t.from}|${t.to}|${t.amount}|${t.fee}|${t.nonce}`;
+  return `W2MTTX1|${t.from}|${t.to}|${t.amount}|${t.fee}|${t.nonce}`;
 }
 
 /**
@@ -177,7 +177,7 @@ export function serializeTxForSigV2(t: {
   fee: number;
   nonce: number;
 }): string {
-  return `BTWBTX2|${CHAIN_ID}|${t.from}|${t.to}|${t.amount}|${t.fee}|${t.nonce}`;
+  return `W2MTTX2|${CHAIN_ID}|${t.from}|${t.to}|${t.amount}|${t.fee}|${t.nonce}`;
 }
 
 /** Full transaction preimage; its double-SHA-256 is the txid. */
@@ -212,7 +212,7 @@ export function serializeCoinbase(c: {
   to: string;
   amount: number;
 }): string {
-  return `BTWBCB1|${c.height}|${c.to}|${c.amount}`;
+  return `W2MTCB1|${c.height}|${c.to}|${c.amount}`;
 }
 
 /**
@@ -226,7 +226,7 @@ export function serializePopTransfer(p: {
   to: string;
   amount: number;
 }): string {
-  return `BTWBPOP1|${p.height}|${p.index}|${p.to}|${p.amount}`;
+  return `W2MTPOP1|${p.height}|${p.index}|${p.to}|${p.amount}`;
 }
 
 /** The exact preimage a peer signs for a PoP attestation (single SHA-256 + ECDSA). */
@@ -235,16 +235,16 @@ export function serializePopAttestation(a: {
   address: string;
   timestamp: number;
 }): string {
-  return `BTWBPOP_ATTEST|${a.minerPeerId}|${a.address}|${a.timestamp}`;
+  return `W2MTPOP_ATTEST|${a.minerPeerId}|${a.address}|${a.timestamp}`;
 }
 
 // -- addresses ---------------------------------------------------------------
-// address = "btw1" + hash160_hex(40) + checksum_hex(8)          (52 chars)
+// address = "w2m1" + hash160_hex(40) + checksum_hex(8)          (52 chars)
 // hash160  = RIPEMD-160(SHA-256(compressed_pubkey_33B))
-// checksum = first 8 hex of double-SHA-256( ASCII "btw1" + hash160_hex )
+// checksum = first 8 hex of double-SHA-256( ASCII "w2m1" + hash160_hex )
 
 export const ADDRESS_LENGTH = 52;
-const ADDRESS_RE = /^btw1[0-9a-f]{48}$/;
+const ADDRESS_RE = /^w2m1[0-9a-f]{48}$/;
 
 export function isAddressFormat(addr: string): boolean {
   return ADDRESS_RE.test(addr);
@@ -345,7 +345,7 @@ export const CHECKPOINT_INTERVAL = 1_000;
  * CHECKPOINT_INTERVAL blocks once the chain is long enough to know them.
  */
 export const CHECKPOINTS: Readonly<Record<number, string>> = {
-  0: "c56c7b1e6bd77fb1cce41b3cb76d05a54c3bfd719db2942066daddf3a52352c3",
+  0: "5a8cfffbd77d6bef7ba317c347ed9106e1af4613b483606ad183ac6e3c63a519",
 };
 
 /** The pinned hash for a height, or null when the height is not checkpointed. */
@@ -390,7 +390,7 @@ export function unitsToCoins(units: number): string {
   return `${neg ? "-" : ""}${whole}${fracStr ? "." + fracStr : ""}`;
 }
 
-/** Parse a decimal BTWB string ("1.25") into base units. null if invalid. */
+/** Parse a decimal W2MT string ("1.25") into base units. null if invalid. */
 export function parseCoins(input: string): number | null {
   const m = /^(\d+)(?:\.(\d{1,8}))?$/.exec(input.trim());
   if (!m) return null;

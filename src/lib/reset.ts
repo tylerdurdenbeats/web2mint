@@ -10,9 +10,14 @@ import { CHAIN_ID } from "@contracts/protocol";
 export async function resetLocalData(): Promise<void> {
   try {
     for (const key of Object.keys(localStorage)) {
-      // current keys plus the pre-rebrand prefix, so a reset after the
+      // current keys plus the pre-rebrand prefixes, so a reset after the
       // migration still wipes any legacy leftovers
-      if (key.startsWith("w2mt.") || key.startsWith("w2mt-") || key.startsWith("btwb.")) {
+      if (
+        key.startsWith("w2mt.") ||
+        key.startsWith("w2mt-") ||
+        key.startsWith("btwb.") ||
+        key.startsWith("btwb-")
+      ) {
         localStorage.removeItem(key);
       }
     }
@@ -25,13 +30,18 @@ export async function resetLocalData(): Promise<void> {
     // ignore
   }
   try {
-    await new Promise<void>((resolve) => {
-      const req = indexedDB.deleteDatabase(`bitweb-${CHAIN_ID}`);
-      const done = () => resolve();
-      req.onsuccess = done;
-      req.onerror = done; // a blocked/missing db must not trap the user
-      req.onblocked = done;
-    });
+    // The current chain database plus the legacy pre-rebrand one (a foreign
+    // chain now, but its bytes still sit on this origin until wiped).
+    const names = [`w2mt-${CHAIN_ID}`, "bitweb-bitweb-mainnet-1"];
+    for (const name of names) {
+      await new Promise<void>((resolve) => {
+        const req = indexedDB.deleteDatabase(name);
+        const done = () => resolve();
+        req.onsuccess = done;
+        req.onerror = done; // a blocked/missing db must not trap the user
+        req.onblocked = done;
+      });
+    }
   } catch {
     // IndexedDB unavailable - nothing to delete
   }

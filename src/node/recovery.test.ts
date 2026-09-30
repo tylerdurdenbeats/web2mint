@@ -24,10 +24,10 @@ import { MemoryStorage } from "./storage";
 // timestamps) - verified with ONE hash each; the live search only grinds
 // when the narrative changes (and prints fresh solutions to bake).
 const BAKED: Record<string, { nonce: number; hash: string }> = {
-  "BTWB1|1|c56c7b1e6bd77fb1cce41b3cb76d05a54c3bfd719db2942066daddf3a52352c3|6c3bb1dcd239c6cd10733a1675648f6a08deabf5483facff6767c35afda186ff|1787443201|": { nonce: 226141, hash: "0000038e6eeeb8de1aa8bbe69b548c9d6bebc03cd51874b35b46fd08541cadba" },
-  "BTWB1|2|0000038e6eeeb8de1aa8bbe69b548c9d6bebc03cd51874b35b46fd08541cadba|78f93090bafefdcd1e0cd2978d13e14772fd6166158f1bb03cedcca6a409635a|1787443202|": { nonce: 4441267, hash: "00000083b48737728aa42d7c64e002f4ce8d25a1122c368f7ba514472c3176e2" },
-  "BTWB1|3|00000083b48737728aa42d7c64e002f4ce8d25a1122c368f7ba514472c3176e2|327723064c8befa1726e876e536d8bd2e49d91dd1507e000f17725b0e053b0fa|1787443203|": { nonce: 3122701, hash: "0000001399de01f52337efaccef52c9804679dc1e34faaabd3b4a4889b91fe0a" },
-  "BTWB1|4|0000001399de01f52337efaccef52c9804679dc1e34faaabd3b4a4889b91fe0a|e8080f6067c383beaae0d46fb8d857675289566cdd1f9e25004c67038d1f6116|1787443204|": { nonce: 3411921, hash: "0000035e2d75f0c275e773a1d3836eb791b3bbb77c20270f0b91fff3f62b00c0" },
+  "W2MT1|1|5a8cfffbd77d6bef7ba317c347ed9106e1af4613b483606ad183ac6e3c63a519|c07694a6cdddcc6b8ca223191c73cc38440a9b82deda49b040e13d5652317f95|1790726401|": { nonce: 7466369, hash: "000001edaf9f63bf6c8d2392329b038cde757e1d9d2166c8b4d5bd9c0dd1cf20" },
+  "W2MT1|2|000001edaf9f63bf6c8d2392329b038cde757e1d9d2166c8b4d5bd9c0dd1cf20|23f13cbdc09cd3f567b3fc1f2c52c9482f615b724438a1d5b7776af2d284c548|1790726402|": { nonce: 1703950, hash: "000002d69cb96952bd32112250e943d47132d510a33ddc4191bcab85dd7d6e7c" },
+  "W2MT1|3|000002d69cb96952bd32112250e943d47132d510a33ddc4191bcab85dd7d6e7c|9aef239525e90cfa5897c697541d582a8032d878a479f4a6c989cfc9a0529d7d|1790726403|": { nonce: 1942207, hash: "0000001ac8402215de21b3a7891042a75fae14b6e3a8e0b284e8210ea46090ab" },
+  "W2MT1|4|0000001ac8402215de21b3a7891042a75fae14b6e3a8e0b284e8210ea46090ab|ec74c1838bb66af95810060eaefca8d7428fb47c7762646a183c570d00358d4a|1790726404|": { nonce: 546201, hash: "00000267152472ee4c993dd65859d3b8a2865656bf5f3b90198b337da564afe4" },
 };
 
 function pow(prefixAscii: string, target: string): { nonce: number; hash: string } {
@@ -56,7 +56,7 @@ async function mineNext(miner: string): Promise<void> {
   const tpl = await buildTemplate(miner);
   const ts = tpl.minTimestamp; // synthetic - deterministic narrative
   const { nonce } = pow(
-    `BTWB1|${tpl.height}|${tpl.prevHash}|${tpl.merkleRoot}|${ts}|`,
+    `W2MT1|${tpl.height}|${tpl.prevHash}|${tpl.merkleRoot}|${ts}|`,
     tpl.target,
   );
   await submitBlock(tpl.templateId, ts, nonce);

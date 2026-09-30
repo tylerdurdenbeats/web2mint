@@ -1,13 +1,11 @@
 // Payment-URI payload spec for QR codes (BIP-21 style).
-//   web2mint:btw1<48hex>?amount=<coins>
-// A bare btw1 address is also accepted when scanning (many wallets scan plain addresses).
+//   web2mint:w2m1<48hex>?amount=<coins>
+// A bare w2m1 address is also accepted when scanning (many wallets scan plain addresses).
 // Shared by the Qr display component (encode) and the QrScanner (decode).
 import { checkAddress } from "./web2mint";
 import { parseCoins, unitsToCoins } from "@contracts/protocol";
 
 export const PAYMENT_URI_SCHEME = "web2mint";
-/** QRs printed by pre-rebrand builds: accepted on scan, never emitted. */
-export const LEGACY_URI_SCHEMES = ["bitweb"] as const;
 
 export interface PaymentRequest {
   address: string;
@@ -35,10 +33,9 @@ export function buildPaymentUri(address: string, amountCoins?: string): string |
 /**
  * Parse scanned QR text into a payment request.
  * Accepts:
- *   web2mint:btw1...
- *   web2mint:btw1...?amount=12.5 (also &amount= or extra unknown params - unknown params are ignored)
- *   bitweb:btw1...               (legacy pre-rebrand scheme - old printed QRs never die)
- *   btw1...                      (bare address, case-insensitive)
+ *   web2mint:w2m1...
+ *   web2mint:w2m1...?amount=12.5 (also &amount= or extra unknown params - unknown params are ignored)
+ *   w2m1...                      (bare address, case-insensitive)
  * Returns null on anything invalid. Never throws.
  */
 export function parsePaymentUri(text: string): PaymentRequest | null {
@@ -48,11 +45,8 @@ export function parsePaymentUri(text: string): PaymentRequest | null {
 
   let amount: string | undefined;
 
-  const scheme = [PAYMENT_URI_SCHEME, ...LEGACY_URI_SCHEMES].find((s) =>
-    raw.toLowerCase().startsWith(`${s}:`),
-  );
-  if (scheme) {
-    const rest = raw.slice(scheme.length + 1);
+  if (raw.toLowerCase().startsWith(`${PAYMENT_URI_SCHEME}:`)) {
+    const rest = raw.slice(PAYMENT_URI_SCHEME.length + 1);
     const q = rest.indexOf("?");
     const addr = (q === -1 ? rest : rest.slice(0, q)).trim().toLowerCase();
     if (!checkAddress(addr)) return null;

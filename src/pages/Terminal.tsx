@@ -417,9 +417,8 @@ export default function Terminal() {
             </a>
             <p className="mt-3 border-t border-neutral-800 pt-2 text-[10px] leading-relaxed text-neutral-600">
               {/* the disclaimer text itself is frozen inside contracts/protocol.ts
-                  (md5-locked consensus file) - only the legacy ticker is mapped
-                  to the current brand at the presentation layer */}
-              {LEGAL_DISCLAIMER.replace(/\bBTWB\b/g, "W2MT")}
+                  (md5-locked consensus file) - rendered verbatim */}
+              {LEGAL_DISCLAIMER}
             </p>
           </Panel>
         </div>
@@ -541,11 +540,11 @@ export default function Terminal() {
             </tr>
           </thead>
           <tbody>
-            {FIXES.map(([k, btc, btw]) => (
+            {FIXES.map(([k, btc, w2m]) => (
               <tr key={k}>
                 <td className="text-neutral-500">{k}</td>
                 <td className="text-neutral-400 line-through decoration-neutral-700">{btc}</td>
-                <td className="text-neutral-100">{btw}</td>
+                <td className="text-neutral-100">{w2m}</td>
               </tr>
             ))}
           </tbody>
