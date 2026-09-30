@@ -172,7 +172,7 @@ export const ASCII_LOGO = String.raw`
  * vw. Measuring the rendered result converges in one pass (monospace width
  * is linear in font-size) and is immune to both.
  */
-function useWordmarkFit<T extends HTMLElement>(cap = 11, floor = 4) {
+function useWordmarkFit<T extends HTMLElement>(cap = 12, floor = 4) {
   const ref = useRef<T | null>(null);
   useEffect(() => {
     const el = ref.current;
@@ -204,7 +204,7 @@ export function Logo({ className }: { className?: string }) {
   return (
     <pre
       ref={ref}
-      style={{ fontSize: 11 }}
+      style={{ fontSize: 12 }}
       className={cn(
         "ascii glow select-none text-center text-neutral-100",
         "mx-auto w-fit max-w-full",
@@ -304,7 +304,7 @@ export function SupplyLogo({
         ref={fitRef}
         data-testid="supply-logo"
         data-progress={progress}
-        style={{ fontSize: 11 }}
+        style={{ fontSize: 12 }}
         className={cn(
           "ascii glow select-none text-center text-neutral-100",
           // Sized by useWordmarkFit (measure-then-shrink), NOT by a vw clamp:
