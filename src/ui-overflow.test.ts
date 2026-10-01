@@ -45,3 +45,23 @@ describe("SupplyLogo tooltip", () => {
     expect(src).toContain("fmtInt(Math.round(softCap / COIN))");
   });
 });
+
+describe("notification bell vs iOS status bar", () => {
+  const layout = readFileSync(
+    fileURLToPath(new URL("./components/term/Layout.tsx", import.meta.url)),
+    "utf8",
+  );
+  const css = readFileSync(fileURLToPath(new URL("./index.css", import.meta.url)), "utf8");
+
+  it("the absolute-anchored bell adds the safe-area inset into its offset", () => {
+    // absolute top-N ignores the header's safe-area padding - plain top-2 put
+    // the bell under the iOS status bar icons in the installed PWA
+    expect(layout).toContain("top-[calc(0.5rem+var(--sat))]");
+    expect(layout).not.toMatch(/absolute right-2 top-2/);
+  });
+
+  it("the header clears the status bar through the overridable --sat hook", () => {
+    expect(layout).toContain("pt-[var(--sat)]");
+    expect(css).toContain("--sat: env(safe-area-inset-top)");
+  });
+});

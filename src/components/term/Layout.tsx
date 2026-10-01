@@ -298,13 +298,15 @@ export function Layout({ children }: { children: ReactNode }) {
           the nav collapses into an invisible-scrollbar strip, and every
           ticking value sits in a fixed-width monospace cell so updates never
           shift, wrap or reflow the bar */}
-      {/* pt-[env(safe-area-inset-top)]: in iOS standalone mode the OS status
-          bar overlaps the page's top edge; without this padding it swallows
-          the nav taps (black-translucent makes the page extend under it). */}
+      {/* pt-[var(--sat)]: in iOS standalone mode the OS status bar overlaps
+          the page's top edge; without this padding it swallows the nav taps
+          (black-translucent makes the page extend under it). --sat is
+          env(safe-area-inset-top) via a custom property so e2e can simulate
+          it (see index.css). */}
       {/* z-[94]: above the lifted wordmark (z-[93]) and the CRT layers
           (90/91/92) - the sticky bar must stay on top when the hero scrolls
           under it, and the crisp brand text matches the crisp wordmark */}
-      <header className="sticky top-0 z-[94] border-b border-neutral-700 bg-black/95 relative pt-[env(safe-area-inset-top)]">
+      <header className="sticky top-0 z-[94] border-b border-neutral-700 bg-black/95 relative pt-[var(--sat)]">
         <div className="mx-auto flex max-w-[1200px] flex-nowrap items-center gap-x-1.5 overflow-hidden px-2 py-2 min-[480px]:gap-x-3 min-[480px]:px-3">
           <Link
             to="/"
@@ -356,8 +358,13 @@ export function Layout({ children }: { children: ReactNode }) {
           {/* the bell is the ONLY button in this corner. Anchored absolute so
               the header can never push it off-screen - and its dropdown,
               being right-aligned to the bell, can never overflow the left
-              edge. */}
-          <div className="absolute right-2 top-2 min-[480px]:right-3 sm:right-4">
+              edge.
+              top-[calc(0.5rem+var(--sat))]: absolute offsets ignore the
+              header's safe-area PADDING - plain top-2 anchored the bell at
+              the screen's very top, under the iOS status bar icons, where
+              it was untappable in the installed PWA. The inset must be added
+              into the offset itself. */}
+          <div className="absolute right-2 top-[calc(0.5rem+var(--sat))] min-[480px]:right-3 sm:right-4">
             <NotificationBell />
           </div>
         </div>

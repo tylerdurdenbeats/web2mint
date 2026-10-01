@@ -335,6 +335,16 @@
   }
 }
 
+:root {
+  /* iOS standalone (apple-mobile-web-app-status-bar-style: black-translucent)
+     lets the OS status bar overlay the page's top edge, so EVERY top-anchored
+     element must clear env(safe-area-inset-top) - including ABSOLUTE ones,
+     whose offsets ignore the header's safe-area padding (the bell bug).
+     Exposed as a custom property so it can be added into calc() offsets -
+     and so e2e can simulate the inset (Chromium's env() is always 0). */
+  --sat: env(safe-area-inset-top);
+}
+
 /* iPhone notch & co - keep the shell clear of rounded corners and home bars.
    Unlayered on purpose: must beat the padding utilities on header/footer. */
 header,
