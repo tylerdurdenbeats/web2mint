@@ -1,4 +1,4 @@
 WEB2MINT SOURCE SNAPSHOT
-built_at_utc: 2026-10-01T10:29:36Z
+built_at_utc: 2026-10-01T10:53:17Z
 version: 0.0.0
 chain: web2mint-mainnet-1

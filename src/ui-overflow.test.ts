@@ -28,11 +28,20 @@ describe("SupplyLogo tooltip", () => {
     expect(tipBody).not.toContain("whitespace-nowrap");
   });
 
-  it("is capped to the viewport and never overlaps the wordmark's ink", () => {
+  it("renders below the wordmark - above it, the topbar crops the top line", () => {
     expect(tipBody).toContain("max-w-[calc(100vw-1rem)]");
-    // positive margin only: bottom-full + mb-1 keeps it above the pre box;
-    // a negative -mb-* covered the top glyph row on phones
-    expect(tipBody).toContain("mb-1");
+    // top-full + mt-1: fully below the pre box. bottom-full put the tooltip
+    // under the sticky topbar (z-94 paints above the hero) and any negative
+    // margin covered the top glyph row on phones.
+    expect(tipBody).toContain("top-full");
+    expect(tipBody).toContain("mt-1");
+    expect(tipBody).not.toContain("bottom-full");
     expect(tipBody).not.toContain("-mb-");
+  });
+
+  it("shows the final supply rounded like the rest of the UI (10,500,025)", () => {
+    // the emission total is a fractional-coin sum; flooring it displayed
+    // "10,500,024" while Terminal/Manifesto show EMISSION_TOTAL_COINS
+    expect(src).toContain("fmtInt(Math.round(softCap / COIN))");
   });
 });

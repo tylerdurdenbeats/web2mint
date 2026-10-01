@@ -334,7 +334,10 @@ export function SupplyLogo({
   const pctText = pct === 0 ? "0" : pct.toFixed(2).replace(/\.?0+$/, "");
   // mined count grouped with the same thousands separators as the final
   // total, so the pair reads as one notation (4,200,000 / 10,500,025)
-  const tip = `MINED: ${fmtInt(supply / COIN)} / ${fmtInt(softCap / COIN)} W2MT (${pctText}%)`;
+  // denominator rounds like EMISSION_TOTAL_COINS / the Terminal stat:
+  // the curve total is a fractional-coin sum of floored block rewards,
+  // and flooring it again here under-reports the final supply by one.
+  const tip = `MINED: ${fmtInt(supply / COIN)} / ${fmtInt(Math.round(softCap / COIN))} W2MT (${pctText}%)`;
 
   return (
     // z-[93]: paint the wordmark ABOVE the global CRT scanline overlay
@@ -387,20 +390,20 @@ export function SupplyLogo({
           flicker on some screens. */}
       <div aria-hidden="true" className="crt-wordmark" />
       {/* terminal-styled tooltip: hover AND keyboard focus.
-          mb-1: sits 4px ABOVE the pre box - the pre's first line is the
-          empty leading-newline row, so a zero/negative margin would cover
-          the top of the visible glyph row on phones.
+          top-full mt-1 - ALWAYS below the wordmark: above it, the tooltip's
+          top tucks under the sticky topbar (z-94 paints above the hero) and
+          gets cropped; below the wordmark nothing opaque is in the way. It
+          transiently covers the first tagline - pointer-events-none, gone on
+          blur. Never bottom-full again: any overlap with the pre covers the
+          top glyph row (the pre's first line is the empty leading-newline
+          row, so even a small negative margin touches ink on phones).
           No whitespace-nowrap: the full MINED line is ~44 chars (~400px),
           wider than a 360px phone - nowrap spilled it past BOTH viewport
           edges. w-max + max-w-[calc(100vw-1rem)] shrinks to content but
-          never past the viewport, wrapping to two centered lines instead.
-          max-sm flip: on phones the two-line tooltip's top line would tuck
-          under the sticky header (the header paints above the hero), so
-          below 640px the tooltip flips UNDER the wordmark where nothing
-          opaque is in the way. */}
+          never past the viewport, wrapping to two centered lines instead. */}
       <div
         role="tooltip"
-        className="pointer-events-none absolute bottom-full left-1/2 z-50 mb-1 w-max max-w-[calc(100vw-1rem)] -translate-x-1/2 max-sm:bottom-auto max-sm:top-full max-sm:mb-0 max-sm:mt-1 border border-neutral-600 bg-black px-3 py-1.5 text-center text-[clamp(12px,3.4vw,15px)] font-semibold tracking-[0.15em] text-white opacity-0 transition-opacity [overflow-wrap:anywhere] [text-shadow:0_0_6px_rgba(255,255,255,0.45)] group-hover:opacity-100 group-focus-within:opacity-100"
+        className="pointer-events-none absolute left-1/2 top-full z-50 mt-1 w-max max-w-[calc(100vw-1rem)] -translate-x-1/2 border border-neutral-600 bg-black px-3 py-1.5 text-center text-[clamp(12px,3.4vw,15px)] font-semibold tracking-[0.15em] text-white opacity-0 transition-opacity [overflow-wrap:anywhere] [text-shadow:0_0_6px_rgba(255,255,255,0.45)] group-hover:opacity-100 group-focus-within:opacity-100"
       >
         {tip}
       </div>
