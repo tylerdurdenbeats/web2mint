@@ -386,10 +386,21 @@ export function SupplyLogo({
           invisible. Static by design: any animated texture reads as
           flicker on some screens. */}
       <div aria-hidden="true" className="crt-wordmark" />
-      {/* terminal-styled tooltip: hover AND keyboard focus */}
+      {/* terminal-styled tooltip: hover AND keyboard focus.
+          mb-1: sits 4px ABOVE the pre box - the pre's first line is the
+          empty leading-newline row, so a zero/negative margin would cover
+          the top of the visible glyph row on phones.
+          No whitespace-nowrap: the full MINED line is ~44 chars (~400px),
+          wider than a 360px phone - nowrap spilled it past BOTH viewport
+          edges. w-max + max-w-[calc(100vw-1rem)] shrinks to content but
+          never past the viewport, wrapping to two centered lines instead.
+          max-sm flip: on phones the two-line tooltip's top line would tuck
+          under the sticky header (the header paints above the hero), so
+          below 640px the tooltip flips UNDER the wordmark where nothing
+          opaque is in the way. */}
       <div
         role="tooltip"
-        className="pointer-events-none absolute bottom-full left-1/2 z-50 -mb-3 -translate-x-1/2 whitespace-nowrap border border-neutral-600 bg-black px-3 py-1.5 text-[clamp(12px,3.4vw,15px)] font-semibold tracking-[0.15em] text-white opacity-0 transition-opacity [text-shadow:0_0_6px_rgba(255,255,255,0.45)] group-hover:opacity-100 group-focus-within:opacity-100"
+        className="pointer-events-none absolute bottom-full left-1/2 z-50 mb-1 w-max max-w-[calc(100vw-1rem)] -translate-x-1/2 max-sm:bottom-auto max-sm:top-full max-sm:mb-0 max-sm:mt-1 border border-neutral-600 bg-black px-3 py-1.5 text-center text-[clamp(12px,3.4vw,15px)] font-semibold tracking-[0.15em] text-white opacity-0 transition-opacity [overflow-wrap:anywhere] [text-shadow:0_0_6px_rgba(255,255,255,0.45)] group-hover:opacity-100 group-focus-within:opacity-100"
       >
         {tip}
       </div>
