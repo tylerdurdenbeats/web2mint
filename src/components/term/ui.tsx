@@ -119,7 +119,7 @@ export function TerminalProgressBar({
       data-testid="terminal-progress-bar"
       data-determinate={determinate || undefined}
       className={cn(
-        "mx-auto flex w-fit max-w-full select-none items-center justify-center text-[clamp(10px,4vw,14px)] text-neutral-200",
+        "mx-auto flex w-fit max-w-full select-none items-center justify-center text-[clamp(11px,4vw,15px)] text-neutral-200",
         !determinate && "blink",
         className,
       )}
@@ -146,8 +146,11 @@ export function TerminalProgressBar({
 export function StatusLine({ ok, children }: { ok: boolean; children: ReactNode }) {
   return (
     <div
+      // [overflow-wrap:anywhere]: status text can carry a raw 64-char txid
+      // (one unbreakable token) - anywhere lets it wrap mid-token instead of
+      // spilling out of the box on narrow screens (the mobile overflow bug).
       className={cn(
-        "border px-2 py-1 text-xs",
+        "border px-2 py-1 text-xs [overflow-wrap:anywhere]",
         ok ? "border-neutral-500 text-neutral-200" : "border-neutral-700 text-neutral-400",
       )}
     >
@@ -175,9 +178,9 @@ export const ASCII_LOGO = String.raw`
  * vw. Measuring the rendered result converges in one pass (monospace width
  * is linear in font-size) and is immune to both.
  */
-// cap 14.52 = 12 * 1.10 * 1.10: wordmark renders ~20% larger than the
+// cap 15.972 = 12 * 1.10^3: wordmark renders ~33% larger than the
 // original wherever it fits (desktop/tablet). Narrow phones stay at the width-limited fitted size.
-function useWordmarkFit<T extends HTMLElement>(cap = 14.52, floor = 4) {
+function useWordmarkFit<T extends HTMLElement>(cap = 15.972, floor = 4) {
   const ref = useRef<T | null>(null);
   useEffect(() => {
     const el = ref.current;
@@ -232,7 +235,7 @@ export function Logo({ className }: { className?: string }) {
   return (
     <pre
       ref={ref}
-      style={{ fontSize: 14.52 }}
+      style={{ fontSize: 15.972 }}
       className={cn(
         // NO text-center here, ever: text-align centers each LINE
         // individually, and trailing spaces hang - so rows with more
@@ -348,7 +351,7 @@ export function SupplyLogo({
         ref={fitRef}
         data-testid="supply-logo"
         data-progress={progress}
-        style={{ fontSize: 14.52 }}
+        style={{ fontSize: 15.972 }}
         className={cn(
           // NO text-center: it centers each line individually and trailing
           // spaces hang, pushing shadow rows right off the grid (see Logo).
@@ -386,7 +389,7 @@ export function SupplyLogo({
       {/* terminal-styled tooltip: hover AND keyboard focus */}
       <div
         role="tooltip"
-        className="pointer-events-none absolute bottom-full left-1/2 z-50 -mb-1 -translate-x-1/2 whitespace-nowrap border border-neutral-600 bg-black px-3 py-1.5 text-[clamp(11px,3.2vw,14px)] font-semibold tracking-[0.15em] text-white opacity-0 transition-opacity [text-shadow:0_0_6px_rgba(255,255,255,0.45)] group-hover:opacity-100 group-focus-within:opacity-100"
+        className="pointer-events-none absolute bottom-full left-1/2 z-50 -mb-3 -translate-x-1/2 whitespace-nowrap border border-neutral-600 bg-black px-3 py-1.5 text-[clamp(12px,3.4vw,15px)] font-semibold tracking-[0.15em] text-white opacity-0 transition-opacity [text-shadow:0_0_6px_rgba(255,255,255,0.45)] group-hover:opacity-100 group-focus-within:opacity-100"
       >
         {tip}
       </div>

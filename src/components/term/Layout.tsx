@@ -151,16 +151,16 @@ function ChainUpdateOverlay() {
       className="fixed inset-0 z-[96] flex items-center justify-center bg-black/85 p-4"
     >
       <div className="w-full max-w-md border border-neutral-600 bg-black px-5 py-6 font-term shadow-[0_0_50px_rgba(255,255,255,0.10)]">
-        <p className="text-center text-2xl font-bold tracking-[0.3em] text-white [text-shadow:0_0_10px_rgba(255,255,255,0.5)] sm:text-3xl">
+        <p className="text-center text-[26px] font-bold tracking-[0.3em] text-white [text-shadow:0_0_10px_rgba(255,255,255,0.5)] sm:text-4xl">
           UPDATING<span className="blink">...</span>
         </p>
-        <p className="mt-4 text-center text-sm tracking-[0.18em] text-neutral-300">
+        <p className="mt-4 text-center text-[15px] tracking-[0.18em] text-neutral-300">
           {state.reason ?? "chain update in progress"}
         </p>
         {state.detail ? (
           <p
             data-testid="chain-update-detail"
-            className="mt-1.5 text-center text-xs tabular-nums tracking-[0.18em] text-neutral-400"
+            className="mt-1.5 text-center text-sm tabular-nums tracking-[0.18em] text-neutral-400"
           >
             {state.detail}
           </p>
@@ -176,7 +176,7 @@ function ChainUpdateOverlay() {
         {state.progress ? (
           <p
             data-testid="chain-update-counts"
-            className="mt-1.5 text-center text-xs tabular-nums tracking-[0.18em] text-neutral-500"
+            className="mt-1.5 text-center text-sm tabular-nums tracking-[0.18em] text-neutral-500"
           >
             {state.progress.current.toLocaleString("en-US")} /{" "}
             {state.progress.total.toLocaleString("en-US")}

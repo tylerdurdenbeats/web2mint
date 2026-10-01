@@ -64,13 +64,13 @@ function BootSplash() {
   }
   return (
     <div className="flex min-h-screen items-center justify-center bg-black text-neutral-200">
-      <div className="w-full max-w-md px-6 text-center font-term text-xl">
+      <div className="w-full max-w-md px-6 text-center font-term text-2xl">
         <p>
           STARTING UP<span className="blink">_</span>
         </p>
         <p
           data-testid="boot-splash-phase"
-          className="mt-4 min-h-5 text-sm tracking-[0.18em] text-neutral-300"
+          className="mt-4 min-h-5 text-[15px] tracking-[0.14em] text-neutral-300"
         >
           {boot.phase ? boot.phase.toUpperCase() : "\u00a0"}
         </p>
@@ -78,7 +78,7 @@ function BootSplash() {
         {cur !== null && tot !== null && boot.windowStart === null ? (
           <p
             data-testid="boot-splash-counts"
-            className="mt-1.5 text-xs tabular-nums tracking-[0.18em] text-neutral-500"
+            className="mt-1.5 text-sm tabular-nums tracking-[0.18em] text-neutral-500"
           >
             {cur.toLocaleString("en-US")} / {tot.toLocaleString("en-US")}
           </p>
@@ -86,7 +86,7 @@ function BootSplash() {
         {gate.active ? (
           <p
             data-testid="boot-splash-status"
-            className="mt-4 text-sm tracking-[0.18em] text-neutral-400"
+            className="mt-4 text-[15px] tracking-[0.14em] text-neutral-400"
           >
             UPDATING: {gate.reason}
             {gate.detail ? ` - ${gate.detail}` : ""}
