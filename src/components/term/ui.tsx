@@ -175,9 +175,9 @@ export const ASCII_LOGO = String.raw`
  * vw. Measuring the rendered result converges in one pass (monospace width
  * is linear in font-size) and is immune to both.
  */
-// cap 13.2 = 12 * 1.10: wordmark renders 10% larger wherever it fits
-// (desktop/tablet). Narrow phones stay at the width-limited fitted size.
-function useWordmarkFit<T extends HTMLElement>(cap = 13.2, floor = 4) {
+// cap 14.52 = 12 * 1.10 * 1.10: wordmark renders ~20% larger than the
+// original wherever it fits (desktop/tablet). Narrow phones stay at the width-limited fitted size.
+function useWordmarkFit<T extends HTMLElement>(cap = 14.52, floor = 4) {
   const ref = useRef<T | null>(null);
   useEffect(() => {
     const el = ref.current;
@@ -232,7 +232,7 @@ export function Logo({ className }: { className?: string }) {
   return (
     <pre
       ref={ref}
-      style={{ fontSize: 13.2 }}
+      style={{ fontSize: 14.52 }}
       className={cn(
         // NO text-center here, ever: text-align centers each LINE
         // individually, and trailing spaces hang - so rows with more
@@ -348,7 +348,7 @@ export function SupplyLogo({
         ref={fitRef}
         data-testid="supply-logo"
         data-progress={progress}
-        style={{ fontSize: 13.2 }}
+        style={{ fontSize: 14.52 }}
         className={cn(
           // NO text-center: it centers each line individually and trailing
           // spaces hang, pushing shadow rows right off the grid (see Logo).
