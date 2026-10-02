@@ -9,6 +9,7 @@ import { getMiningIntent, setMiningIntent } from "@/lib/mining-intent";
 import { setMiningWakeLock } from "@/lib/wake-lock";
 import { prepareMiningStart, wireMiningGate } from "@/lib/mining-gate";
 import { notify } from "@/lib/notify";
+import { soundEngine } from "@/lib/sound";
 import { shortAddr } from "@/lib/format";
 
 export interface MinerLogLine {
@@ -97,6 +98,22 @@ function acquireMiningClaim(): Promise<(() => void) | null> {
     bc.postMessage({ type: "query" } satisfies ClaimMsg);
     bc.postMessage({ type: "claim", ticket: myTicket } satisfies ClaimMsg);
   });
+}
+
+/**
+ * Audibility policy for the mining-start cue. The CRT power-on chirp is the
+ * acknowledgement of a MANUAL button press: it fires only when the user's
+ * own START press actually brings the engine online. Boot auto-starts and
+ * gate-close auto-resumes stay silent by design - the app is keeping a
+ * promise the user already made, there is no fresh information to sound
+ * about - and a chain-update resume ("start" vs "resume") never chirps
+ * either. Pure and exported for tests (the classifyIncoming precedent).
+ */
+export function miningStartCue(
+  opts: { auto?: boolean } | undefined,
+  mode: "start" | "resume",
+): boolean {
+  return mode === "start" && opts?.auto !== true;
 }
 
 /**
@@ -323,7 +340,11 @@ export function useMiner(address: string | null) {
   }, [handleFound]);
 
   const beginMining = useCallback(
-    (mode: "start" | "resume" = "start") => {
+    (mode: "start" | "resume" = "start", cue = false) => {
+      // cue: the user's own button press earned the CRT power-on chirp.
+      // feedback() = sound + screen-reader line; the notify() entry below
+      // stays in its silent tier, so auto-starts never make a sound.
+      if (cue) soundEngine.feedback("mining_start");
       runningRef.current = true;
       setRunning(true);
       rotationTipRef.current = null; // mining runs - all wait states cleared
@@ -379,7 +400,7 @@ export function useMiner(address: string | null) {
       }
       releaseLockRef.current = release;
       pendingStartRef.current = false;
-      beginMining();
+      beginMining("start", miningStartCue(opts, "start"));
     };
     void (async () => {
       // Pre-flight hold: freeze the chain for a beat ("UPDATING - preparing
@@ -444,7 +465,7 @@ export function useMiner(address: string | null) {
         }
         if (!pendingStartRef.current) return; // stopped while waiting - drop the lock
         pendingStartRef.current = false;
-        beginMining();
+        beginMining("start", miningStartCue(opts, "start"));
         // Returning this promise holds the lock until stop() resolves it.
         return new Promise<void>((resolve) => {
           releaseLockRef.current = () => {
